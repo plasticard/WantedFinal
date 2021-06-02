@@ -10,6 +10,7 @@ import {
 import * as Yup from "yup"
 import ProgressBar from "react-native-progress/Bar"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete"
 
 import AppText from "../components/AppText"
 import { AppFormField, SubmitButton } from "../components/forms"
@@ -18,6 +19,7 @@ import Screen from "../components/Screen"
 import colors from "../config/colors"
 import DateInput from "../components/DateInput"
 import ImagePicker from "../components/forms/ImagePicker"
+import LocalisationSearchBar from "../components/forms/LocalisationSearchBar"
 
 const validationSchema = Yup.object().shape({
   images: Yup.array().min(1, "Sélectionner au moins 1 image"),
@@ -67,7 +69,7 @@ const PostEdit = ({ navigation }) => {
         useNativeDriver={true}
       />
 
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <MultiForm
           progress={changeProgress}
           initialValues={{
@@ -94,6 +96,7 @@ const PostEdit = ({ navigation }) => {
           <View>
             <AppText style2={styles.title}>Identité et Signalement</AppText>
             <ImagePicker name="images" />
+
             <AppFormField
               name="name"
               placeholder="Nom, prénom, surnom..."
@@ -111,11 +114,9 @@ const PostEdit = ({ navigation }) => {
               placeholder="Date de disparition"
               icon="calendar-today"
             />
-
-            <AppFormField
-              name="location"
+            <LocalisationSearchBar
               placeholder="Dernière localisation"
-              icon="my-location"
+              name="location"
             />
           </View>
           {

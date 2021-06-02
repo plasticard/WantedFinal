@@ -7,6 +7,7 @@ import NewPostButton from "./NewPostButton"
 import PostEdit from "../screens/PostEdit"
 import FeedNavigator from "./FeedNavigator"
 import AccountNavigator from "./AccountNavigator"
+import Test from "../screens/Test2"
 
 const Tab = createBottomTabNavigator()
 
@@ -37,6 +38,7 @@ const AppNavigator = () => (
         ),
       })}
     />
+
     <Tab.Screen
       name="AccountNavigator"
       component={AccountNavigator}

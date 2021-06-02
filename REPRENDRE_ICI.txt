@@ -1,0 +1,2 @@
+Je me suis arreté avant la mise en place du moteur de recherche de ville
+pour le field "derniere localisation" reprendre le cour code with mosh à la partie 1 - video 14

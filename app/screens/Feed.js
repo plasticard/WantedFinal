@@ -1,7 +1,9 @@
 import React from "react"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete"
 import AppButton from "../components/AppButton"
 import Card2 from "../components/Card2"
+import LocalisationSearchBar from "../components/forms/LocalisationSearchBar"
 import Screen from "../components/Screen"
 
 const Feed = ({ navigation }) => {

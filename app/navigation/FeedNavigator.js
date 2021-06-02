@@ -5,6 +5,7 @@ import CardDetailScreen from "../screens/CardDetailScreen"
 import Feed from "../screens/Feed"
 import Test from "../screens/Test"
 import routes from "./routes"
+import Test2 from "../screens/Test2"
 
 const Stack = createStackNavigator()
 export default function FeedNavigator() {
@@ -17,6 +18,7 @@ export default function FeedNavigator() {
       <Stack.Screen name={routes.FEED} component={Feed} />
       <Stack.Screen name={routes.CARD_DETAIL} component={CardDetailScreen} />
       <Stack.Screen name={"Test"} component={Test} />
+      <Stack.Screen name={"Test2"} component={Test2} />
     </Stack.Navigator>
   )
 }

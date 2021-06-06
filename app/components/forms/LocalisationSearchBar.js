@@ -8,9 +8,7 @@ import defaultStyles from "../../config/styles"
 import ErrorMessage from "./ErrorMessage"
 
 import { LogBox } from "react-native"
-LogBox.ignoreWarnings([
-  "VirtualizedLists should never be nested", // TODO: Remove when fixed
-])
+
 const LocalisationSearchBar = ({ placeholder, name }) => {
   const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
   const [state, setstate] = useState()
@@ -29,7 +27,7 @@ const LocalisationSearchBar = ({ placeholder, name }) => {
         placeholder={placeholder}
         onPress={(data, details = null) => console.log(data, details)}
         query={{
-          // key: "AIzaSyB1kDQfZZkFCasqxqmoZniw7sVyZ3Cvkrw",
+          key: "AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s",
           language: "fr",
           types: "(cities)",
         }}

@@ -47,121 +47,130 @@ const PostEdit = ({ navigation }) => {
   //
   return (
     <Screen>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={{
-          marginRight: 16,
-          marginVertical: 8,
-        }}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
       >
-        <MaterialCommunityIcons name="close" size={30} color={colors.medium} />
-      </TouchableOpacity>
-      <ProgressBar
-        animated={true}
-        animationType="spring"
-        width={Dimensions.get("window").width}
-        progress={state}
-        color={colors.secondary}
-        unfilledColor={colors.light}
-        borderColor={colors.background}
-        height={8}
-        borderRadius={0}
-        useNativeDriver={true}
-      />
-
-      <ScrollView keyboardShouldPersistTaps="handled">
-        <MultiForm
-          progress={changeProgress}
-          initialValues={{
-            images: [],
-            name: "",
-            age: "",
-            date: "",
-            location: "",
-            corpulence: "",
-            height: "",
-            hair: "",
-            eye: "",
-            outfit: "",
-            other: "",
-            email: "",
-            tel: "",
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{
+            marginRight: 16,
+            marginVertical: 8,
           }}
-          onSubmit={(values) => console.log(values)}
-          validationSchema={validationSchema}
         >
-          {
-            //Form 1
-          }
-          <View>
-            <AppText style2={styles.title}>Identité et Signalement</AppText>
-            <ImagePicker name="images" />
+          <MaterialCommunityIcons
+            name="close"
+            size={30}
+            color={colors.medium}
+          />
+        </TouchableOpacity>
+        <ProgressBar
+          animated={true}
+          animationType="spring"
+          width={Dimensions.get("window").width}
+          progress={state}
+          color={colors.secondary}
+          unfilledColor={colors.light}
+          borderColor={colors.background}
+          height={8}
+          borderRadius={0}
+          useNativeDriver={true}
+        />
 
-            <AppFormField
-              name="name"
-              placeholder="Nom, prénom, surnom..."
-              icon="person"
-            />
-            <AppFormField
-              name="age"
-              keyboardType="numeric"
-              maxLength={3}
-              placeholder="Age"
-              width={"22%"}
-            />
-            <DateInput
-              name="date"
-              placeholder="Date de disparition"
-              icon="calendar-today"
-            />
-            <LocalisationSearchBar
-              placeholder="Dernière localisation"
-              name="location"
-            />
-          </View>
-          {
-            //Form 2
-          }
-          <View>
-            <AppText style2={styles.title}>Description physique</AppText>
-            <AppFormField
-              name="corpulence"
-              placeholder="Corpulence"
-              width={"75%"}
-            />
-            <AppFormField
-              name="height"
-              keyboardType="numeric"
-              maxLength={3}
-              placeholder="Taille (cm)"
-              width={"30%"}
-            />
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <MultiForm
+            progress={changeProgress}
+            initialValues={{
+              images: [],
+              name: "",
+              age: "",
+              date: "",
+              location: "",
+              corpulence: "",
+              height: "",
+              hair: "",
+              eye: "",
+              outfit: "",
+              other: "",
+              email: "",
+              tel: "",
+            }}
+            onSubmit={(values) => console.log(values)}
+            validationSchema={validationSchema}
+          >
+            {
+              //Form 1
+            }
+            <View>
+              <AppText style2={styles.title}>Identité et Signalement</AppText>
+              <ImagePicker name="images" />
 
-            <AppFormField name="hair" placeholder="Cheveux" />
-            <AppFormField name="eyes" placeholder="Yeux" />
-            <AppFormField
-              name="outfit"
-              placeholder="Tenue vestimentaire"
-              multiline
-              numberOfLines={4}
-            />
-            <AppFormField
-              name="other"
-              placeholder="Signe particulier, autre..."
-              multiline
-              numberOfLines={4}
-            />
-          </View>
-          {
-            //Form 3
-          }
-          <View>
-            <AppText style2={styles.title}>Contact</AppText>
-            <AppFormField name="tel" placeholder="Téléphone" />
-            <AppFormField name="email" placeholder="Email" />
-          </View>
-        </MultiForm>
-      </ScrollView>
+              <AppFormField
+                name="name"
+                placeholder="Nom, prénom, surnom..."
+                icon="person"
+              />
+              <AppFormField
+                name="age"
+                keyboardType="numeric"
+                maxLength={3}
+                placeholder="Age"
+                width={"22%"}
+              />
+              <DateInput
+                name="date"
+                placeholder="Date de disparition"
+                icon="calendar-today"
+              />
+              <LocalisationSearchBar
+                placeholder="Dernière localisation"
+                name="location"
+              />
+            </View>
+            {
+              //Form 2
+            }
+            <View>
+              <AppText style2={styles.title}>Description physique</AppText>
+              <AppFormField
+                name="corpulence"
+                placeholder="Corpulence"
+                width={"75%"}
+              />
+              <AppFormField
+                name="height"
+                keyboardType="numeric"
+                maxLength={3}
+                placeholder="Taille (cm)"
+                width={"30%"}
+              />
+
+              <AppFormField name="hair" placeholder="Cheveux" />
+              <AppFormField name="eyes" placeholder="Yeux" />
+              <AppFormField
+                name="outfit"
+                placeholder="Tenue vestimentaire"
+                multiline
+                numberOfLines={4}
+              />
+              <AppFormField
+                name="other"
+                placeholder="Signe particulier, autre..."
+                multiline
+                numberOfLines={4}
+              />
+            </View>
+            {
+              //Form 3
+            }
+            <View>
+              <AppText style2={styles.title}>Contact</AppText>
+              <AppFormField name="tel" placeholder="Téléphone" />
+              <AppFormField name="email" placeholder="Email" />
+            </View>
+          </MultiForm>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Screen>
   )
 }
@@ -169,6 +178,9 @@ const PostEdit = ({ navigation }) => {
 export default PostEdit
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   title: {
     fontSize: 24,
     marginLeft: 20,

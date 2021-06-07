@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "wantedfinal",
     "name": "WantedFinal",
     "slug": "WantedFinal",
     "version": "1.0.0",

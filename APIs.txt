@@ -1,3 +1,7 @@
 Google Oauth :
 310106763652-6rv7qtjl86e80hp8433pc9s07212frvo.apps.googleusercontent.com
 MDFSMg-kmdFJT0RJXJmkWdpN
+
+Facebook:
+179329454123334
+78d97bc5f9cd2a3cc9c97838a84e6b02

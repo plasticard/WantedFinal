@@ -1,20 +1,19 @@
 import React from "react"
-import { StyleSheet, Text, View } from "react-native"
 import { createStackNavigator } from "@react-navigation/stack"
-import CardDetailScreen from "../screens/CardDetailScreen"
-import Feed from "../screens/Feed"
-import Login from "../screens/Login"
-import Register from "../screens/Register"
-
-const Stack = createStackNavigator()
-export default function AuthNavigator() {
+import SignIn from "../screens/auth/SignIn"
+import SignUp from "../screens/auth/SignUp"
+import ConfirmSignUp from "../screens/auth/ConfirmSignUp"
+const AuthStack = createStackNavigator()
+export default AuthNavigator = (props) => {
   return (
-    <Stack.Navigator headerMode="none" mode="modal">
-      <Stack.Screen name="Register" component={Register} />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Home" component={Feed} />
-    </Stack.Navigator>
+    <AuthStack.Navigator headerMode="none">
+      <AuthStack.Screen name="SignIn">
+        {(screenProps) => (
+          <SignIn {...screenProps} updateAuthState={props.updateAuthState} />
+        )}
+      </AuthStack.Screen>
+      <AuthStack.Screen name="SignUp" component={SignUp} />
+      <AuthStack.Screen name="ConfirmSignUp" component={ConfirmSignUp} />
+    </AuthStack.Navigator>
   )
 }
-
-const styles = StyleSheet.create({})

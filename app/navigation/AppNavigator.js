@@ -8,10 +8,11 @@ import PostEdit from "../screens/PostEdit"
 import FeedNavigator from "./FeedNavigator"
 import AccountNavigator from "./AccountNavigator"
 import Test from "../screens/Test2"
+import Icon from "../components/Icon"
 
 const Tab = createBottomTabNavigator()
 
-const AppNavigator = () => (
+const AppNavigator = ({ updateAuthState }) => (
   <Tab.Navigator
     tabBarOptions={{
       activeBackgroundColor: colors.white,
@@ -41,13 +42,26 @@ const AppNavigator = () => (
 
     <Tab.Screen
       name="AccountNavigator"
-      component={AccountNavigator}
       options={{
         tabBarIcon: ({ size, color }) => (
           <MaterialCommunityIcons name="account" color={color} size={size} />
         ),
+
+        headerShown: true,
+        // title: 'My home',
+        headerRight: () => (
+          <View>
+            <Button onPress={() => Auth.signOut({ global: true })} transparent>
+              <Icon name="exit-to-app" style={{ iconColor: "white" }} />
+            </Button>
+          </View>
+        ),
       }}
-    />
+    >
+      {(screenProps) => (
+        <AccountNavigator {...screenProps} updateAuthState={updateAuthState} />
+      )}
+    </Tab.Screen>
   </Tab.Navigator>
 )
 

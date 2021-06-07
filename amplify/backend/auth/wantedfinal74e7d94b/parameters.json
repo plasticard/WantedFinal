@@ -45,9 +45,15 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "defaultSocial",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
-    "dependsOn": []
+    "dependsOn": [],
+    "hostedUI": true,
+    "hostedUIDomainName": "wantedfinal842df072-842df072",
+    "authProvidersUserPool": [],
+    "hostedUIProviderMeta": "[]",
+    "authProviders": [],
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:19002/\",\"exp://192.168.1.16:19000/\",\"wantedFinal://\"],\"LogoutURLs\":[\"http://localhost:19002/\",\"exp://192.168.1.16:19000/\",\"wantedFinal://\"]}"
 }

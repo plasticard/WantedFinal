@@ -1,3 +1,4 @@
+import Auth from "@aws-amplify/auth"
 import React from "react"
 import { FlatList, StyleSheet, Text, View } from "react-native"
 import Icon from "../components/Icon"
@@ -24,7 +25,16 @@ const menuItems = [
     navigate: "Messages",
   },
 ]
-const Account = ({ navigation }) => {
+const Account = ({ navigation, updateAuthState }) => {
+  async function signOut() {
+    try {
+      await Auth.signOut()
+      updateAuthState("loggedOut")
+      console.log(`signOut2`)
+    } catch (error) {
+      console.log("Error signing out: ", error)
+    }
+  }
   return (
     <Screen style2={styles.screen}>
       <ListItem
@@ -54,6 +64,7 @@ const Account = ({ navigation }) => {
         />
       </View>
       <ListItem
+        onPress={signOut}
         title="Déconnexion"
         ImageComponent={<Icon backgroundColor="yellow" name="logout" />}
       />

@@ -7,7 +7,7 @@ import routes from "../navigation/routes"
 const Card = ({
   title = "Nom Prenom",
   subTitle = "23 ans",
-  image = require("../assets/messi.jpg"),
+  image = "https://www.topmercato.com/wp-content/uploads/2021/05/Lionel-Messi-Barca-Atletico-Madrid.jpg",
 }) => {
   const navigation = useNavigation()
   return (
@@ -15,7 +15,8 @@ const Card = ({
       style={styles.card}
       onPress={() =>
         navigation.navigate(routes.CARD_DETAIL, {
-          image: require("../assets/messi.jpg"),
+          image:
+            "https://assets-fr.imgfoot.com/media/cache/642x382/lionel-messi-barca-2021.jpg",
         })
       }
     >
@@ -33,7 +34,7 @@ const Card = ({
           }),
         }}
       >
-        <Image style={styles.image} source={image} />
+        <Image style={styles.image} source={{ uri: image }} />
       </View>
       <View style={styles.details}>
         <View

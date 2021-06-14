@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { StyleSheet, Text, View } from "react-native"
-import { useFormikContext } from "formik"
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete"
 import { MaterialIcons } from "@expo/vector-icons"
+import { useFormikContext } from "formik"
 
 import defaultStyles from "../../config/styles"
 import ErrorMessage from "./ErrorMessage"
@@ -25,7 +25,9 @@ const LocalisationSearchBar = ({ placeholder, name }) => {
         enablePoweredByContainer={false}
         disableScroll
         placeholder={placeholder}
-        onPress={(data, details = null) => console.log(data, details)}
+        onPress={(data, details = null) => {
+          handleChange(name)
+        }}
         query={{
           key: "AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s",
           language: "fr",
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     padding: 15,
     alignItems: "center",
     marginVertical: 8,
-    marginHorizontal: 8,
+    marginHorizontal: 16,
   },
   icon: {
     marginRight: 10,

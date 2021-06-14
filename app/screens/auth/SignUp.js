@@ -4,6 +4,7 @@ import { Auth } from "aws-amplify"
 import { SafeAreaView } from "react-native-safe-area-context"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
+import colors from "../../config/colors"
 
 export default SignUp = ({ navigation }) => {
   const [username, setUsername] = useState("")
@@ -24,49 +25,48 @@ export default SignUp = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Create a new account</Text>
+      <Text style={styles.title}>Bienvenue sur Wanted</Text>
+      <Text style={styles.subtitle}>S'inscrire</Text>
 
-        <AppTextInput
-          value={username}
-          onChangeText={(text) => setUsername(text)}
-          icon="account"
-          placeholder="Enter username"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-        />
+      <AppTextInput
+        value={username}
+        onChangeText={(text) => setUsername(text)}
+        icon="account"
+        placeholder="Nom d'utilisateur"
+        autoCapitalize="none"
+        keyboardType="email-address"
+        textContentType="emailAddress"
+      />
 
-        <AppTextInput
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          icon="lock"
-          placeholder="Enter password"
-          autoCapitalize="none"
-          autoCorrect={false}
-          secureTextEntry
-          textContentType="password"
-        />
+      <AppTextInput
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+        icon="lock"
+        placeholder="Mot de passe"
+        autoCapitalize="none"
+        autoCorrect={false}
+        secureTextEntry
+        textContentType="password"
+      />
 
-        <AppTextInput
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          icon="email"
-          placeholder="Enter email"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-        />
+      <AppTextInput
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+        icon="email"
+        placeholder="Email"
+        autoCapitalize="none"
+        keyboardType="email-address"
+        textContentType="emailAddress"
+      />
 
-        <AppButton title="Sign Up" onPress={signUp} />
+      <AppButton title="Inscription" onPress={signUp} />
 
-        <View style={styles.footerButtonContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
-            <Text style={styles.forgotPasswordButtonText}>
-              Already have an account? Sign In
-            </Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.footerButtonContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
+          <Text style={styles.forgotPasswordButtonText}>
+            Vous avez un compte ? Connectez-vous
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   )
@@ -81,10 +81,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 20,
-    color: "#202020",
+    fontSize: 32,
+    color: colors.primary,
     fontWeight: "500",
-    marginVertical: 15,
+    marginVertical: 24,
+  },
+  subtitle: {
+    alignSelf: "flex-start",
+    marginLeft: 16,
+    fontSize: 24,
+    color: colors.black,
+    fontWeight: "500",
+    marginBottom: 8,
+    marginTop: 24,
   },
   footerButtonContainer: {
     marginVertical: 15,
@@ -92,8 +101,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   forgotPasswordButtonText: {
-    color: "tomato",
-    fontSize: 18,
+    color: colors.secondary,
+    fontSize: 16,
     fontWeight: "600",
   },
 })

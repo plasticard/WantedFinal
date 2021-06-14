@@ -1,4 +1,3 @@
-pour le field "derniere localisation" reprendre le cour code with mosh à la partie 1 - video 14
 Implementer le systeme de submit forms
 Reflechir a suite de l'app
 
@@ -6,5 +5,10 @@ Reflechir a suite de l'app
 Comprendre Linking et faire un URLscheme
 Mettre en place le login with facebook
 
-Rectification : laisser le login facebook pour l'instant
+Rectification : laisser sans login facebook pour l'instant
 peut etre besoin d'eject en RN
+
+Valider les formulaire formik et faire les fonctions CRUD
+
+Cliquer sur la photo dans CardDetails pour l'afficher en plein ecran
+Faire un carousel d'images

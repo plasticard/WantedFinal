@@ -8,6 +8,8 @@ import {
 } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { MaterialIcons } from "@expo/vector-icons"
+import { useFormikContext } from "formik"
+
 import moment from "moment"
 import "moment/locale/fr"
 moment.locale("fr")
@@ -16,6 +18,8 @@ import AppText from "./AppText"
 import colors from "../config/colors"
 
 const DateInput = ({ placeholder, name }) => {
+  const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
+
   const ios = Platform.OS == "ios" ? true : false
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(ios)
@@ -25,6 +29,7 @@ const DateInput = ({ placeholder, name }) => {
     const currentDate = selectedDate || date
     setShow(ios)
     setDate(currentDate)
+    handleChange(name)
   }
 
   return (
@@ -34,7 +39,7 @@ const DateInput = ({ placeholder, name }) => {
         padding: 15,
         justifyContent: "flex-start",
         marginVertical: 8,
-        marginHorizontal: 8,
+        marginHorizontal: 16,
         borderRadius: 10,
       }}
     >
@@ -59,6 +64,7 @@ const DateInput = ({ placeholder, name }) => {
           {ios ? null : <AppText>{formattedDate}</AppText>}
           {show && (
             <DateTimePicker
+              onTouchStart={() => setFieldTouched(name)}
               maximumDate={new Date()}
               onChange={onChange}
               value={date}

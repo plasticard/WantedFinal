@@ -5,17 +5,9 @@ export const onCreatePost = /* GraphQL */ `
   subscription OnCreatePost {
     onCreatePost {
       id
-      image
-      type
-      title
-      description
-      bed
-      bedroom
-      maxGuests
-      oldPrice
-      newPrice
-      latitude
-      longitude
+      images
+      name
+      age
       createdAt
       updatedAt
     }
@@ -25,17 +17,9 @@ export const onUpdatePost = /* GraphQL */ `
   subscription OnUpdatePost {
     onUpdatePost {
       id
-      image
-      type
-      title
-      description
-      bed
-      bedroom
-      maxGuests
-      oldPrice
-      newPrice
-      latitude
-      longitude
+      images
+      name
+      age
       createdAt
       updatedAt
     }
@@ -45,17 +29,9 @@ export const onDeletePost = /* GraphQL */ `
   subscription OnDeletePost {
     onDeletePost {
       id
-      image
-      type
-      title
-      description
-      bed
-      bedroom
-      maxGuests
-      oldPrice
-      newPrice
-      latitude
-      longitude
+      images
+      name
+      age
       createdAt
       updatedAt
     }

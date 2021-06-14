@@ -1,46 +1,45 @@
 import React, { useState } from "react"
 import { Formik, Form } from "formik"
 import AppButton from "../AppButton"
-import { View } from "react-native"
+import { Button, View } from "react-native"
 import { SubmitButton } from "."
 
 function MultiForm({
   initialValues,
   onSubmit,
+  updatePost,
   validationSchema,
   children,
   progress,
 }) {
   const childrenArray = React.Children.toArray(children)
-  const oneStep = 1 / childrenArray.length //percentage of one step progress in the form
+  const oneStep = 1 / childrenArray.length //part of one step progress in the form
   const [step, setstep] = useState(0)
   const currentChild = childrenArray[step]
-
   return (
     <View style={{ paddingBottom: 32 }}>
       <Formik
         initialValues={initialValues}
-        onSubmit={onSubmit}
+        onSubmit={(values) => alert("values")}
         validationSchema={validationSchema}
       >
-        {() => (
+        {({ values }) => (
           <>
             {currentChild}
-            <View style={{}}>
+            <View>
               {step < childrenArray.length - 1 ? (
                 <AppButton
-                  style
+                  title="Suivant"
                   onPress={() => {
                     setstep((s) => s + 1)
                     progress(oneStep)
                   }}
-                  color="primary"
-                  text="white"
-                  title="Suivant"
                 />
               ) : null}
               {step > 0 ? (
                 <AppButton
+                  color="white"
+                  text="primary"
                   onPress={() => {
                     setstep((s) => s - 1)
                     progress(-oneStep)
@@ -49,10 +48,7 @@ function MultiForm({
                 />
               ) : null}
               {step === childrenArray.length - 1 ? (
-                <SubmitButton
-                  title="Valider"
-                  onPress2={() => progress(oneStep)}
-                />
+                <SubmitButton title="yes" />
               ) : null}
             </View>
           </>

@@ -26,12 +26,7 @@ export default function ProfileComponent({
             {subTitle && <AppText style2={styles.subTitle}>{subTitle}</AppText>}
           </View>
           <View style={{ alignSelf: "flex-end", width: "30%" }}>
-            <AppButton
-              title="Contacter"
-              color="primary"
-              text="white"
-              width="100%"
-            />
+            <AppButton title="Contacter" width="100%" />
           </View>
         </View>
       </TouchableHighlight>

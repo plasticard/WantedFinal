@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from "react"
-import { StyleSheet, ActivityIndicator, View } from "react-native"
+import { StyleSheet } from "react-native"
 import { NavigationContainer } from "@react-navigation/native"
-
 import navigationTheme from "./app/navigation/navigationTheme"
 import AppNavigator from "./app/navigation/AppNavigator"
 import AuthNavigator from "./app/navigation/AuthNavigator"
 import Initializing from "./Initializing"
-import Amplify, { Auth } from "aws-amplify"
+
+import Amplify, { Auth, API } from "aws-amplify"
+import * as queries from "./src/graphql/queries"
 import config from "./src/aws-exports"
 Amplify.configure(config)
 
+import { Post } from "./src/models/index"
 const App = () => {
   const [isUserLoggedIn, setUserLoggedIn] = useState("initializing")
 
   useEffect(() => {
     checkAuthState()
   }, [])
+
   async function checkAuthState() {
     try {
       await Auth.currentAuthenticatedUser()

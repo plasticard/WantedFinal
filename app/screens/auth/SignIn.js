@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
+import colors from "../../config/colors"
 
 const SignIn = ({ navigation, updateAuthState }) => {
   const [username, setUsername] = useState("")
@@ -26,13 +27,14 @@ const SignIn = ({ navigation, updateAuthState }) => {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.container}>
-        <Text style={styles.title}>Sign in to your account</Text>
+        <Text style={styles.title}>Bienvenue sur Wanted</Text>
+        <Text style={styles.subtitle}>Se connecter</Text>
 
         <AppTextInput
           value={username}
           onChangeText={(text) => setUsername(text)}
           icon="account"
-          placeholder="Enter username"
+          placeholder="Nom d'utilisateur"
           autoCapitalize="none"
           keyboardType="email-address"
           textContentType="emailAddress"
@@ -42,19 +44,19 @@ const SignIn = ({ navigation, updateAuthState }) => {
           value={password}
           onChangeText={(text) => setPassword(text)}
           icon="lock"
-          placeholder="Enter password"
+          placeholder="Mot de passe"
           autoCapitalize="none"
           autoCorrect={false}
           secureTextEntry
           textContentType="password"
         />
 
-        <AppButton title="Login" onPress={signIn} />
+        <AppButton title="Connexion" onPress={signIn} />
 
         <View style={styles.footerButtonContainer}>
           <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
             <Text style={styles.forgotPasswordButtonText}>
-              Don't have an account? Sign Up
+              Pas de compte ? Inscrivez-vous
             </Text>
           </TouchableOpacity>
         </View>
@@ -85,10 +87,19 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 20,
-    color: "#202020",
+    fontSize: 32,
+    color: colors.primary,
     fontWeight: "500",
-    marginVertical: 15,
+    marginVertical: 24,
+  },
+  subtitle: {
+    alignSelf: "flex-start",
+    marginLeft: 16,
+    fontSize: 24,
+    color: colors.black,
+    fontWeight: "500",
+    marginBottom: 8,
+    marginTop: 24,
   },
 
   footerButtonContainer: {
@@ -98,8 +109,8 @@ const styles = StyleSheet.create({
   },
 
   forgotPasswordButtonText: {
-    color: "tomato",
-    fontSize: 18,
+    color: colors.secondary,
+    fontSize: 16,
     fontWeight: "600",
   },
 })

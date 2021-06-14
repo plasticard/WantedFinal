@@ -1,12 +1,26 @@
-import Auth from "@aws-amplify/auth"
-import React from "react"
+import React, { useState, useEffect } from "react"
+import { StyleSheet, Text, View } from "react-native"
 
-import { Button, Pressable, StyleSheet, Text, View } from "react-native"
+//data
+import { API } from "aws-amplify"
+import * as queries from "../../src/graphql/queries"
+
 import AppButton from "../components/AppButton"
 import Card2 from "../components/Card2"
 import Screen from "../components/Screen"
+import { FlatList } from "react-native-gesture-handler"
 
-const Feed = ({ navigation, updateAuthState }) => {
+const Feed = ({ navigation }) => {
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    fetchPosts()
+  }, [])
+  async function fetchPosts() {
+    const apiData = await API.graphql({ query: queries.listPosts })
+    setPosts(apiData.data.listPosts.items)
+  }
+
   return (
     <Screen>
       <View
@@ -16,16 +30,14 @@ const Feed = ({ navigation, updateAuthState }) => {
           justifyContent: "center",
         }}
       >
-        <Card2 />
-        <Card2 />
-        <Card2 />
-        <Card2 />
-        <Button
-          onPress={() => signOut()}
-          style={{ width: 100, height: 50, backgroundColor: "red" }}
-          title="logout"
+        <FlatList
+          numColumns={2}
+          data={posts}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <Card2 title={item.name} subTitle={item.age} image={item.images} />
+          )}
         />
-        <AppButton title="test" onPress={() => navigation.navigate("Test")} />
       </View>
     </Screen>
   )

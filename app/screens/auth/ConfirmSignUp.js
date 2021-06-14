@@ -4,6 +4,8 @@ import { Auth } from "aws-amplify"
 import { SafeAreaView } from "react-native-safe-area-context"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
+import colors from "../../config/colors"
+import AppText from "../../components/AppText"
 
 export default ConfirmSignUp = ({ navigation }) => {
   const [username, setUsername] = useState("")
@@ -24,13 +26,13 @@ export default ConfirmSignUp = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.container}>
-        <Text style={styles.title}>Confirm Sign Up</Text>
+        <AppText style={styles.subtitle}>Confirmer l'inscription</AppText>
 
         <AppTextInput
           value={username}
           onChangeText={(text) => setUsername(text)}
           icon="account"
-          placeholder="Enter username"
+          placeholder="Nom d'utilisateur"
           autoCapitalize="none"
           keyboardType="email-address"
           textContentType="emailAddress"
@@ -40,11 +42,11 @@ export default ConfirmSignUp = ({ navigation }) => {
           value={authCode}
           onChangeText={(text) => setAuthCode(text)}
           icon="numeric"
-          placeholder="Enter verification code"
+          placeholder="Code de vérification par mail"
           keyboardType="numeric"
         />
 
-        <AppButton title="Confirm Sign Up" onPress={confirmSignUp} />
+        <AppButton title="Confirmer" onPress={confirmSignUp} />
       </View>
     </SafeAreaView>
   )
@@ -54,14 +56,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
+
   container: {
     flex: 1,
     alignItems: "center",
+    paddingTop: 32,
   },
   title: {
-    fontSize: 20,
-    color: "#202020",
+    fontSize: 32,
+    color: colors.primary,
     fontWeight: "500",
-    marginVertical: 15,
+    marginVertical: 24,
+  },
+  subtitle: {
+    alignSelf: "flex-start",
+    marginLeft: 16,
+    fontSize: 24,
+    color: colors.black,
+    fontWeight: "500",
+    marginBottom: 8,
+    marginTop: 24,
   },
 })

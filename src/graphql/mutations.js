@@ -8,17 +8,9 @@ export const createPost = /* GraphQL */ `
   ) {
     createPost(input: $input, condition: $condition) {
       id
-      image
-      type
-      title
-      description
-      bed
-      bedroom
-      maxGuests
-      oldPrice
-      newPrice
-      latitude
-      longitude
+      images
+      name
+      age
       createdAt
       updatedAt
     }
@@ -31,17 +23,9 @@ export const updatePost = /* GraphQL */ `
   ) {
     updatePost(input: $input, condition: $condition) {
       id
-      image
-      type
-      title
-      description
-      bed
-      bedroom
-      maxGuests
-      oldPrice
-      newPrice
-      latitude
-      longitude
+      images
+      name
+      age
       createdAt
       updatedAt
     }
@@ -54,17 +38,9 @@ export const deletePost = /* GraphQL */ `
   ) {
     deletePost(input: $input, condition: $condition) {
       id
-      image
-      type
-      title
-      description
-      bed
-      bedroom
-      maxGuests
-      oldPrice
-      newPrice
-      latitude
-      longitude
+      images
+      name
+      age
       createdAt
       updatedAt
     }

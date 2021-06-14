@@ -11,7 +11,7 @@ export default function ImageInputList({
   const scrollView = useRef()
 
   return (
-    <View style={{ marginHorizontal: 8 }}>
+    <View style={{ marginHorizontal: 16 }}>
       <AppText>Photos</AppText>
       <ScrollView
         ref={scrollView}

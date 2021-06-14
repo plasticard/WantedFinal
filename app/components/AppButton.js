@@ -5,8 +5,8 @@ import AppText from "./AppText"
 
 export default AppButton = ({
   title,
-  color = "white",
-  text = "primary",
+  color = "primary",
+  text = "white",
   onPress,
   width = "90%",
 }) => {

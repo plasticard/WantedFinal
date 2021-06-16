@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Formik, Form } from "formik"
 import AppButton from "../AppButton"
 import { Button, View } from "react-native"
-import { SubmitButton } from "."
+import  SubmitButton  from "./SubmitButton"
 
 function MultiForm({
   initialValues,
@@ -20,13 +20,16 @@ function MultiForm({
     <View style={{ paddingBottom: 32 }}>
       <Formik
         initialValues={initialValues}
-        onSubmit={(values) => alert("values")}
+        onSubmit={(values) => onSubmit(values)}
         validationSchema={validationSchema}
       >
-        {({ values }) => (
+        {() => (
           <>
             {currentChild}
             <View>
+              {step === childrenArray.length - 1 ? (
+                <SubmitButton title="valider" onPress={() => onSubmit()} />
+              ) : null}
               {step < childrenArray.length - 1 ? (
                 <AppButton
                   title="Suivant"
@@ -46,9 +49,6 @@ function MultiForm({
                   }}
                   title="Retour"
                 />
-              ) : null}
-              {step === childrenArray.length - 1 ? (
-                <SubmitButton title="yes" />
               ) : null}
             </View>
           </>

@@ -16,7 +16,7 @@ const Card = ({
       onPress={() =>
         navigation.navigate(routes.CARD_DETAIL, {
           image:
-            "https://assets-fr.imgfoot.com/media/cache/642x382/lionel-messi-barca-2021.jpg",
+            image,
         })
       }
     >

@@ -11,6 +11,8 @@ import * as Yup from "yup"
 import ProgressBar from "react-native-progress/Bar"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
+import { API } from "aws-amplify";
+import * as mutations from '../../src/graphql/mutations'
 import AppText from "../components/AppText"
 import { AppFormField } from "../components/forms"
 import MultiForm from "../components/forms/MultiForm"
@@ -50,21 +52,18 @@ const PostEdit = ({ navigation }) => {
 
   //submitPost
   const handleSubmit = async (listing) => {
-    alert("etst ")
-    /* 
-    if (!formData) {
-      return alert("Impossible de créer le post")
-    }
+    console.log(listing)
+    
     const newPost = await API.graphql({
       query: mutations.createPost,
       variables: {
-        input: {
-          formData,
-        },
+        input: 
+          listing,
+          
       },
     })
     alert("Succès")
-  */
+
   }
   return (
     <Screen>
@@ -106,20 +105,10 @@ const PostEdit = ({ navigation }) => {
               images: [],
               name: "",
               age: "",
-              date: "",
-              location: "",
-              corpulence: "",
-              height: "",
-              hair: "",
-              eye: "",
-              outfit: "Abde",
-              other: "",
-              email: "",
-              tel: "",
+              
             }}
-            // onSubmit={}
-            onSubmit={(values) => console.log(values)}
-            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+            
           >
             {
               //Form 1
@@ -202,7 +191,16 @@ const PostEdit = ({ navigation }) => {
     </Screen>
   )
 }
-
+{/*date: "",
+              location: "",
+              corpulence: "",
+              height: "",
+              hair: "",
+              eye: "",
+              outfit: "Abde",
+              other: "",
+              email: "",
+            tel: "",*/}
 export default PostEdit
 
 const styles = StyleSheet.create({

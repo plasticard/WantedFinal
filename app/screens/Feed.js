@@ -1,44 +1,53 @@
 import React, { useState, useEffect } from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, FlatList } from "react-native"
 
-//data
-import { API } from "aws-amplify"
-import * as queries from "../../src/graphql/queries"
-
-import AppButton from "../components/AppButton"
 import Card2 from "../components/Card2"
 import Screen from "../components/Screen"
-import { FlatList } from "react-native-gesture-handler"
+import AppText from "../components/AppText"
+import AppButton from "../components/AppButton"
+import ActivityIndicator from "../components/ActivityIndicator"
+import useApi from "../hooks/useApi"
 
 const Feed = ({ navigation }) => {
-  const [posts, setPosts] = useState([])
+  const { data, error, loading, fetchListPosts: request } = useApi()
 
   useEffect(() => {
-    fetchPosts()
+    request()
   }, [])
-  async function fetchPosts() {
-    const apiData = await API.graphql({ query: queries.listPosts })
-    setPosts(apiData.data.listPosts.items)
-  }
+  /* async function request() {
+    setLoading(true)
+    try {
+      const apiData = await API.graphql({ query: queries.listPosts })
+      setData(apiData.data.listPosts.items)
+      setLoading(false)
+      setError(false)
+    } catch (error) {
+      setError(true)
+      console.log(error)
+    }
+  }*/
 
   return (
     <Screen>
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
+      <ActivityIndicator visible={loading} />
+      {error ? (
+        <>
+          <AppText style={{ textAlign: "center" }}>
+            Erreur lors du chargement des posts
+          </AppText>
+          <AppButton title="Réessayer" onPress={request} />
+        </>
+      ) : (
         <FlatList
+          scrol
           numColumns={2}
-          data={posts}
+          data={data}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <Card2 title={item.name} subTitle={item.age} image={item.images} />
           )}
         />
-      </View>
+      )}
     </Screen>
   )
 }

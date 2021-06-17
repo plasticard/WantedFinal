@@ -11,8 +11,6 @@ import * as Yup from "yup"
 import ProgressBar from "react-native-progress/Bar"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
-import { API } from "aws-amplify";
-import * as mutations from '../../src/graphql/mutations'
 import AppText from "../components/AppText"
 import { AppFormField } from "../components/forms"
 import MultiForm from "../components/forms/MultiForm"
@@ -21,6 +19,7 @@ import colors from "../config/colors"
 import DateInput from "../components/DateInput"
 import ImagePicker from "../components/forms/ImagePicker"
 import LocalisationSearchBar from "../components/forms/LocalisationSearchBar"
+import useApi from "../hooks/useApi"
 const validationSchema = Yup.object().shape({
   images: Yup.array().min(1, "Sélectionner au moins 1 image"),
   name: Yup.string().min(3, "Entrer un nom").label("Nom"),
@@ -39,32 +38,15 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().label("Email"),
 })
 const PostEdit = ({ navigation }) => {
-  //si un des field n'est pas rempli correctement error passe à true et
-  //empeche d'aller à la suite du formulaire
-  const [error, seterror] = useState(false)
-
   //gestion de la barre de progression
   const [state, setstate] = useState(0)
-  const [formData, setFormData] = useState()
+  //post data
+  const { submitPost: handleSubmit } = useApi()
+
   const changeProgress = (i) => {
     setstate(state + i)
   }
 
-  //submitPost
-  const handleSubmit = async (listing) => {
-    console.log(listing)
-    
-    const newPost = await API.graphql({
-      query: mutations.createPost,
-      variables: {
-        input: 
-          listing,
-          
-      },
-    })
-    alert("Succès")
-
-  }
   return (
     <Screen>
       <KeyboardAvoidingView
@@ -105,10 +87,8 @@ const PostEdit = ({ navigation }) => {
               images: [],
               name: "",
               age: "",
-              
             }}
             onSubmit={handleSubmit}
-            
           >
             {
               //Form 1
@@ -191,7 +171,8 @@ const PostEdit = ({ navigation }) => {
     </Screen>
   )
 }
-{/*date: "",
+{
+  /*date: "",
               location: "",
               corpulence: "",
               height: "",
@@ -200,7 +181,8 @@ const PostEdit = ({ navigation }) => {
               outfit: "Abde",
               other: "",
               email: "",
-            tel: "",*/}
+            tel: "",*/
+}
 export default PostEdit
 
 const styles = StyleSheet.create({

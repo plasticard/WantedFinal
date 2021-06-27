@@ -1,7 +1,0 @@
-type Post @model {
-  id: ID!
-
-  images: String!
-  name: String!
-  age: Int!
-}

@@ -7,15 +7,15 @@ import NewPostButton from "./NewPostButton"
 import PostEdit from "../screens/PostEdit"
 import FeedNavigator from "./FeedNavigator"
 import AccountNavigator from "./AccountNavigator"
-import Test from "../screens/Test2"
+
 import Icon from "../components/Icon"
 
 const Tab = createBottomTabNavigator()
 
-const AppNavigator = ({ updateAuthState }) => (
+const AppNavigator = ({ updateAuthState, userLogged }) => (
   <Tab.Navigator
     tabBarOptions={{
-      activeBackgroundColor: colors.white,
+      activeBackgroundColor: "white",
       activeTintColor: colors.primary,
       inactiveTintColor: colors.medium,
       showLabel: false,
@@ -59,7 +59,11 @@ const AppNavigator = ({ updateAuthState }) => (
       }}
     >
       {(screenProps) => (
-        <AccountNavigator {...screenProps} updateAuthState={updateAuthState} />
+        <AccountNavigator
+          {...screenProps}
+          userLogged={userLogged}
+          updateAuthState={updateAuthState}
+        />
       )}
     </Tab.Screen>
   </Tab.Navigator>

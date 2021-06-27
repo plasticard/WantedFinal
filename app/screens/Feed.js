@@ -6,27 +6,35 @@ import Screen from "../components/Screen"
 import AppText from "../components/AppText"
 import AppButton from "../components/AppButton"
 import ActivityIndicator from "../components/ActivityIndicator"
-import useApi from "../hooks/useApi"
+import { DataStore } from "aws-amplify"
+import { Post } from "../../src/models"
 
 const Feed = ({ navigation }) => {
-  const { data, error, loading, fetchListPosts: request } = useApi()
+  const post = [
+    {
+      id: "123",
+      age: 24,
+      name: "yes",
+      images: [
+        "https://pbs.twimg.com/media/E4es6RoWQAIffzY?format=jpg&name=small",
+      ],
+    },
+  ]
+  const [posts, setPosts] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
-    request()
-  }, [])
-  /* async function request() {
     setLoading(true)
-    try {
-      const apiData = await API.graphql({ query: queries.listPosts })
-      setData(apiData.data.listPosts.items)
-      setLoading(false)
-      setError(false)
-    } catch (error) {
-      setError(true)
-      console.log(error)
-    }
-  }*/
+    fetchPosts()
+    setLoading(false)
+  }, [])
 
+  const fetchPosts = async () => {
+    const response = await DataStore.query(Post)
+    setPosts(response)
+  }
   return (
     <Screen>
       <ActivityIndicator visible={loading} />
@@ -39,13 +47,12 @@ const Feed = ({ navigation }) => {
         </>
       ) : (
         <FlatList
-          scrol
+          refreshing={refresh}
+          onRefresh={() => fetchPosts()}
           numColumns={2}
-          data={data}
+          data={posts}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <Card2 title={item.name} subTitle={item.age} image={item.images} />
-          )}
+          renderItem={({ item }) => <Card2 item={item} />}
         />
       )}
     </Screen>

@@ -25,7 +25,9 @@ const menuItems = [
     navigate: "Messages",
   },
 ]
-const Account = ({ navigation, updateAuthState }) => {
+const Account = ({ navigation, updateAuthState, userLogged }) => {
+  const { image, name, sub } = userLogged[0]
+  console.log(`userLogged`, userLogged)
   async function signOut() {
     try {
       await Auth.signOut()
@@ -37,11 +39,7 @@ const Account = ({ navigation, updateAuthState }) => {
   }
   return (
     <Screen style2={styles.screen}>
-      <ListItem
-        image={require("../assets/pp.png")}
-        title="Nom Prenom"
-        subTitle="adress@mail.com"
-      />
+      <ListItem image={{ uri: image }} title={sub} subTitle={name} />
       <View style={styles.container}>
         <FlatList
           scrollEnabled={false}

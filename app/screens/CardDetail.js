@@ -1,4 +1,6 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import { DataStore } from "aws-amplify"
+import { Post } from "../../src/models"
 import {
   Image,
   StyleSheet,
@@ -9,15 +11,53 @@ import {
   StatusBar,
 } from "react-native"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import Screen from "../components/Screen"
 
 import AppText from "../components/AppText"
 import test from "../data/test"
 import colors from "../config/colors"
 import ProfileComponent from "../components/ProfileComponent"
+import ActivityIndicator from "../components/ActivityIndicator"
+import AppButton from "../components/AppButton"
 
 const CardDetail = ({ route, navigation }) => {
+  const [post, setPost] = useState()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
+
+  const postId = route.params.id
+
+  useEffect(() => {
+    try {
+      setLoading(true)
+
+      fetchPost()
+      setLoading(false)
+    } catch (e) {
+      console.log(`e`, e)
+      setError(true)
+      setLoading(false)
+    }
+  }, [postId])
+  const fetchPost = async () => {
+    const response = await DataStore.query(Post, postId).then(setPost)
+  }
+  //Loading
+  if (!post) return <ActivityIndicator visible={loading} />
+  //Error
+  if (error) {
+    return (
+      <>
+        <AppText style={{ textAlign: "center" }}>
+          Erreur lors du chargement du post
+        </AppText>
+        <AppButton title="Réessayer" onPress={fetchPost} />
+      </>
+    )
+  }
+  //Success
   return (
-    <SafeAreaView>
+    <View>
       <SectionList
         style={{ backgroundColor: "white" }}
         ListHeaderComponent={
@@ -33,12 +73,12 @@ const CardDetail = ({ route, navigation }) => {
               }}
             >
               <MaterialCommunityIcons
-                name="arrow-left"
+                name="arrow-left-circle"
                 size={30}
-                color={colors.medium}
+                color={colors.white}
               />
             </TouchableOpacity>
-            <Image source={{ uri: route.params.image }} style={styles.image} />
+            <Image source={{ uri: post.images[0] }} style={styles.image} />
             <AppText
               style2={{
                 textAlign: "center",
@@ -72,7 +112,7 @@ const CardDetail = ({ route, navigation }) => {
           </View>
         )}
       />
-    </SafeAreaView>
+    </View>
   )
 }
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { View, Text, TouchableOpacity, Button, StyleSheet } from "react-native"
 import { Auth } from "aws-amplify"
-import { SafeAreaView } from "react-native-safe-area-context"
 
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
@@ -25,65 +24,68 @@ const SignIn = ({ navigation, updateAuthState }) => {
   }
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Bienvenue sur Wanted</Text>
-        <Text style={styles.subtitle}>Se connecter</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Bienvenue sur Wanted</Text>
+      <Text style={styles.subtitle}>Se connecter</Text>
 
-        <AppTextInput
-          value={username}
-          onChangeText={(text) => setUsername(text)}
-          icon="account"
-          placeholder="Nom d'utilisateur"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          textContentType="emailAddress"
-        />
+      <AppTextInput
+        value={username}
+        onChangeText={(text) => setUsername(text)}
+        icon="email"
+        placeholder="Email"
+        autoCapitalize="none"
+        autoCorrect={false}
+        keyboardType="email-address"
+        textContentType="emailAddress"
+      />
 
-        <AppTextInput
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          icon="lock"
-          placeholder="Mot de passe"
-          autoCapitalize="none"
-          autoCorrect={false}
-          secureTextEntry
-          textContentType="password"
-        />
+      <AppTextInput
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+        icon="lock"
+        placeholder="Mot de passe"
+        autoCapitalize="none"
+        autoCorrect={false}
+        secureTextEntry
+        textContentType="password"
+      />
 
-        <AppButton title="Connexion" onPress={signIn} />
+      <AppButton title="Connexion" onPress={signIn} />
 
-        <View style={styles.footerButtonContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-            <Text style={styles.forgotPasswordButtonText}>
-              Pas de compte ? Inscrivez-vous
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <Button
-          title="testFB"
-          onPress={() => Auth.federatedSignIn({ provider: "Facebook" })}
-          iconRight
-        />
-        <Button
-          title="testGo"
-          onPress={() => Auth.federatedSignIn({ provider: "Google" })}
-          iconRight
-        />
+      <View style={styles.footerButtonContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+          <Text style={styles.forgotPasswordButtonText}>
+            Pas de compte ? Inscrivez-vous
+          </Text>
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+      <View style={styles.footerButtonContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+          <Text style={styles.forgotPasswordButtonText}>
+            Mot de passe oublié
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <Button
+        title="testFB"
+        onPress={() => Auth.federatedSignIn({ provider: "Facebook" })}
+        iconRight
+      />
+      <Button
+        title="testGo"
+        onPress={() => Auth.federatedSignIn({ provider: "Google" })}
+        iconRight
+      />
+    </View>
   )
 }
 export default SignIn
 const styles = StyleSheet.create({
-  safeAreaContainer: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-
   container: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: "white",
+    width: "100%",
   },
 
   title: {

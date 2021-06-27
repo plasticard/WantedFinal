@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, Text, StyleSheet } from "react-native"
+import { View, StyleSheet } from "react-native"
 import { Auth } from "aws-amplify"
 import { SafeAreaView } from "react-native-safe-area-context"
 import AppTextInput from "../../components/AppTextInput"
@@ -7,8 +7,8 @@ import AppButton from "../../components/AppButton"
 import colors from "../../config/colors"
 import AppText from "../../components/AppText"
 
-export default ConfirmSignUp = ({ navigation }) => {
-  const [username, setUsername] = useState("")
+export default ConfirmSignUp = ({ navigation, route }) => {
+  const [username, setUsername] = useState(route.params.username)
   const [authCode, setAuthCode] = useState("")
   async function confirmSignUp() {
     try {
@@ -31,9 +31,10 @@ export default ConfirmSignUp = ({ navigation }) => {
         <AppTextInput
           value={username}
           onChangeText={(text) => setUsername(text)}
-          icon="account"
-          placeholder="Nom d'utilisateur"
+          icon="email"
+          placeholder="Email"
           autoCapitalize="none"
+          autoCorrect={false}
           keyboardType="email-address"
           textContentType="emailAddress"
         />

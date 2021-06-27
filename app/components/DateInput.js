@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import {
   Platform,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from "react-native"
@@ -30,6 +29,7 @@ const DateInput = ({ placeholder, name }) => {
     setShow(ios)
     setDate(currentDate)
     handleChange(name)
+    console.log(`currentDate`, currentDate)
   }
 
   return (

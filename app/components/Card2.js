@@ -4,19 +4,16 @@ import { useNavigation } from "@react-navigation/core"
 import colors from "../config/colors"
 import AppText from "./AppText"
 import routes from "../navigation/routes"
-const Card = ({
-  title = "Nom Prenom",
-  subTitle = "23 ans",
-  image = "https://www.topmercato.com/wp-content/uploads/2021/05/Lionel-Messi-Barca-Atletico-Madrid.jpg",
-}) => {
+const Card = ({ item }) => {
+  const { id, name: title, age: subTitle, images, userID } = item
   const navigation = useNavigation()
+
   return (
     <TouchableOpacity
       style={styles.card}
       onPress={() =>
         navigation.navigate(routes.CARD_DETAIL, {
-          image:
-            image,
+          id: id,
         })
       }
     >
@@ -34,7 +31,7 @@ const Card = ({
           }),
         }}
       >
-        <Image style={styles.image} source={{ uri: image }} />
+        <Image style={styles.image} source={{ uri: images[0] }} />
       </View>
       <View style={styles.details}>
         <View

@@ -1,0 +1,17 @@
+type User @model @auth(rules: [{allow: owner, operations: [read, create, update, delete]}, {allow: private, operations: [read, create]}]) {
+  id: ID!
+  name: String
+  image: String
+  Posts: [Post] @connection(keyName: "byUser", fields: ["id"])
+  sub: String
+}
+
+type Post @model @key(name: "byUser", fields: ["userID"]) @auth(rules: [{allow: private, operations: [read, create]}, {allow: owner, operations: [read, create, update, delete]}]) {
+  id: ID!
+  name: String!
+  age: Int
+  images: [String]!
+  userID: ID
+  User: User @connection
+}
+ 

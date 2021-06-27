@@ -19,7 +19,6 @@ import colors from "../config/colors"
 import DateInput from "../components/DateInput"
 import ImagePicker from "../components/forms/ImagePicker"
 import LocalisationSearchBar from "../components/forms/LocalisationSearchBar"
-import useApi from "../hooks/useApi"
 const validationSchema = Yup.object().shape({
   images: Yup.array().min(1, "Sélectionner au moins 1 image"),
   name: Yup.string().min(3, "Entrer un nom").label("Nom"),
@@ -87,6 +86,16 @@ const PostEdit = ({ navigation }) => {
               images: [],
               name: "",
               age: "",
+              date: "",
+              location: "",
+              corpulence: "",
+              height: "",
+              hair: "",
+              eye: "",
+              outfit: "",
+              other: "",
+              email: "",
+              tel: "",
             }}
             onSubmit={handleSubmit}
           >
@@ -171,18 +180,7 @@ const PostEdit = ({ navigation }) => {
     </Screen>
   )
 }
-{
-  /*date: "",
-              location: "",
-              corpulence: "",
-              height: "",
-              hair: "",
-              eye: "",
-              outfit: "Abde",
-              other: "",
-              email: "",
-            tel: "",*/
-}
+
 export default PostEdit
 
 const styles = StyleSheet.create({

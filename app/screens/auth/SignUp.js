@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native"
 import { Auth } from "aws-amplify"
-import { SafeAreaView } from "react-native-safe-area-context"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
 import colors from "../../config/colors"
@@ -17,14 +16,14 @@ export default SignUp = ({ navigation }) => {
 
       console.log(" Sign-up Confirmed")
 
-      navigation.navigate("ConfirmSignUp")
+      navigation.navigate("ConfirmSignUp", { username })
     } catch (error) {
       console.log(" Error signing up...", error)
     }
   }
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <>
       <Text style={styles.title}>Bienvenue sur Wanted</Text>
       <Text style={styles.subtitle}>S'inscrire</Text>
 
@@ -32,12 +31,13 @@ export default SignUp = ({ navigation }) => {
         value={username}
         onChangeText={(text) => setUsername(text)}
         icon="account"
-        placeholder="Nom d'utilisateur"
+        placeholder="Email"
+        icon="email"
         autoCapitalize="none"
+        autoCorrect={false}
         keyboardType="email-address"
         textContentType="emailAddress"
       />
-
       <AppTextInput
         value={password}
         onChangeText={(text) => setPassword(text)}
@@ -49,16 +49,6 @@ export default SignUp = ({ navigation }) => {
         textContentType="password"
       />
 
-      <AppTextInput
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        icon="email"
-        placeholder="Email"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        textContentType="emailAddress"
-      />
-
       <AppButton title="Inscription" onPress={signUp} />
 
       <View style={styles.footerButtonContainer}>
@@ -68,17 +58,15 @@ export default SignUp = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </>
   )
 }
 const styles = StyleSheet.create({
-  safeAreaContainer: {
-    flex: 1,
-    backgroundColor: "white",
-  },
   container: {
     flex: 1,
     alignItems: "center",
+    backgroundColor: "white",
+    width: "100%",
   },
   title: {
     fontSize: 32,

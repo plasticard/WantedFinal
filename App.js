@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react"
 import { StyleSheet, View, Button } from "react-native"
 import { NavigationContainer } from "@react-navigation/native"
 import navigationTheme from "./app/navigation/navigationTheme"
+import { LogBox } from "react-native"
+
+LogBox.ignoreLogs(["Setting a timer"])
+
+import UserContext from "./app/hooks/UserContext"
 import AppNavigator from "./app/navigation/AppNavigator"
 import AuthNavigator from "./app/navigation/AuthNavigator"
 import Initializing from "./Initializing"
@@ -31,7 +36,6 @@ const App = () => {
 
       //check if user exists in db
       const user = (await DataStore.query(User)).filter((u) => u.sub === userId)
-
       if (!user) {
         //if not save user to db
         const newUser = await DataStore.save(
@@ -44,7 +48,7 @@ const App = () => {
         setUserLogged(newUser)
       }
 
-      setUserLogged(user)
+      setUserLogged(user[0])
 
       console.log(" User is signed in")
       setUserLoggedIn("loggedIn")
@@ -53,17 +57,32 @@ const App = () => {
       setUserLoggedIn("loggedOut")
     }
   }
+  //update the user auth state
   function updateAuthState(isUserLoggedIn) {
     setUserLoggedIn(isUserLoggedIn)
   }
+
+  //change the user profile image
+  updateImage = async (img) => {
+    await DataStore.save(
+      Post.copyOf(userLogged, (updated) => {
+        updated.image = img
+      })
+    )
+  }
+  //value for userContext provider
+  const contextValue = {
+    user: userLogged,
+    updateImage,
+  }
+
   return (
     <NavigationContainer>
       {isUserLoggedIn === "initializing" && <Initializing />}
       {isUserLoggedIn === "loggedIn" && (
-        <AppNavigator
-          updateAuthState={updateAuthState}
-          userLogged={userLogged}
-        />
+        <UserContext.Provider value={contextValue}>
+          <AppNavigator updateAuthState={updateAuthState} />
+        </UserContext.Provider>
       )}
       {isUserLoggedIn === "loggedOut" && (
         <AuthNavigator updateAuthState={updateAuthState} />

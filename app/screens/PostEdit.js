@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import {
   Dimensions,
   KeyboardAvoidingView,
@@ -10,6 +10,8 @@ import {
 import * as Yup from "yup"
 import ProgressBar from "react-native-progress/Bar"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
+import { DataStore } from "aws-amplify"
+import { Post } from "../../src/models"
 
 import AppText from "../components/AppText"
 import { AppFormField } from "../components/forms"
@@ -19,10 +21,11 @@ import colors from "../config/colors"
 import DateInput from "../components/DateInput"
 import ImagePicker from "../components/forms/ImagePicker"
 import LocalisationSearchBar from "../components/forms/LocalisationSearchBar"
+
 const validationSchema = Yup.object().shape({
   images: Yup.array().min(1, "Sélectionner au moins 1 image"),
   name: Yup.string().min(3, "Entrer un nom").label("Nom"),
-  age: Yup.number().min(1).max(120).label("Age"),
+  age: Yup.number().min(0).max(120).label("Age"),
   date: Yup.date().label("Date"),
   location: Yup.string().min(4).label("Localisation"),
 
@@ -37,15 +40,23 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().label("Email"),
 })
 const PostEdit = ({ navigation }) => {
-  //gestion de la barre de progression
+  const scrollView = useRef()
+  //progress bar and states gestion
   const [state, setstate] = useState(0)
-  //post data
-  const { submitPost: handleSubmit } = useApi()
-
   const changeProgress = (i) => {
     setstate(state + i)
   }
+  //post data
+  const handleSubmit = async (post) => {
+    console.log(`postEdit`, post)
 
+    //parsing age to number to fit in the DB model
+    // console.log(`post.age`, typeof post.age)
+    //post.age = parseInt(post.age)
+    await DataStore.save(new Post(post))
+    navigation.navigate("FeedNavigator")
+    setstate(0)
+  }
   return (
     <Screen>
       <KeyboardAvoidingView
@@ -53,14 +64,16 @@ const PostEdit = ({ navigation }) => {
         style={styles.container}
       >
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            navigation.goBack()
+          }}
           style={{
             marginRight: 16,
             marginVertical: 8,
           }}
         >
           <MaterialCommunityIcons
-            name="close"
+            name="close-circle"
             size={30}
             color={colors.medium}
           />
@@ -78,9 +91,13 @@ const PostEdit = ({ navigation }) => {
           useNativeDriver={true}
         />
 
-        <ScrollView keyboardShouldPersistTaps="handled">
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          ref={scrollView}
+          onContentSizeChange={() => scrollView.current.scrollToStart()}
+        >
           <MultiForm
-            //updatePost={updatePostData}
+            validationSchema={validationSchema}
             progress={changeProgress}
             initialValues={{
               images: [],
@@ -97,7 +114,10 @@ const PostEdit = ({ navigation }) => {
               email: "",
               tel: "",
             }}
-            onSubmit={handleSubmit}
+            onSubmit={(values) => {
+              handleSubmit(handleSubmit)
+              console.log("values", values)
+            }}
           >
             {
               //Form 1

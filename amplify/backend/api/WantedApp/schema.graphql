@@ -8,10 +8,20 @@ type User @model @auth(rules: [{allow: owner, operations: [read, create, update,
 
 type Post @model @key(name: "byUser", fields: ["userID"]) @auth(rules: [{allow: private, operations: [read, create]}, {allow: owner, operations: [read, create, update, delete]}]) {
   id: ID!
+  images: [String]!
   name: String!
   age: Int
-  images: [String]!
-  userID: ID
+  date: AWSDateTime
   User: User @connection
+  location: String
+  corpulence: String
+  height: Int
+  hair: String
+  eyes: String
+  outfit: String
+  other: String
+  tel: AWSPhone
+  email: AWSEmail
+  userID: ID
 }
  

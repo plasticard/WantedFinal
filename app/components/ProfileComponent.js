@@ -13,6 +13,8 @@ export default function ProfileComponent({
   image,
   onPress,
   renderRightActions,
+  buttonTitle,
+  buttonAction,
   ImageComponent,
 }) {
   return (
@@ -20,13 +22,13 @@ export default function ProfileComponent({
       <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
         <View style={styles.container}>
           {ImageComponent}
-          {image && <Image source={image} style={styles.image} />}
+          {image && <Image source={{ uri: image }} style={styles.image} />}
           <View style={{ marginLeft: 10, alignItems: "flex-start", flex: 1 }}>
             <AppText style2={styles.title}>{title}</AppText>
             {subTitle && <AppText style2={styles.subTitle}>{subTitle}</AppText>}
           </View>
           <View style={{ alignSelf: "flex-end", width: "30%" }}>
-            <AppButton title="Contacter" width="100%" />
+            <AppButton title={buttonTitle} onPress={buttonAction} />
           </View>
         </View>
       </TouchableHighlight>
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: colors.white,
     width: "100%",
-    padding: 10,
+    paddingHorizontal: 10,
     alignItems: "center",
     borderTopWidth: 2,
     borderColor: colors.light,
@@ -55,5 +57,6 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     color: colors.black,
+    fontSize: 15,
   },
 })

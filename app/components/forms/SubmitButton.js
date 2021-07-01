@@ -1,13 +1,13 @@
 import React from "react"
 import { useFormikContext } from "formik"
-
 import AppButton from "../AppButton"
 
-const SubmitButton = ({ title, onPress2 }) => {
-  const { handleSubmit } = useFormikContext()
+const SubmitButton = ({ title, onPress }) => {
+  const { handleSubmit, resetForm } = useFormikContext()
+
   const combinedFunctions = () => {
+    onPress()
     handleSubmit()
-    onPress2 && onPress2()
   }
 
   return (

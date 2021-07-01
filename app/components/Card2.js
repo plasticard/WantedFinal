@@ -4,10 +4,10 @@ import { useNavigation } from "@react-navigation/core"
 import colors from "../config/colors"
 import AppText from "./AppText"
 import routes from "../navigation/routes"
-const Card = ({ item }) => {
+const Card2 = ({ item }) => {
   const { id, name: title, age: subTitle, images, userID } = item
   const navigation = useNavigation()
-
+  console.log(`images`, images)
   return (
     <TouchableOpacity
       style={styles.card}
@@ -61,7 +61,7 @@ const Card = ({ item }) => {
   )
 }
 
-export default Card
+export default Card2
 
 const styles = StyleSheet.create({
   card: {

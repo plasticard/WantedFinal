@@ -9,10 +9,11 @@ import FeedNavigator from "./FeedNavigator"
 import AccountNavigator from "./AccountNavigator"
 
 import Icon from "../components/Icon"
+import UpdateProfile from "../screens/UpdateProfile"
 
 const Tab = createBottomTabNavigator()
 
-const AppNavigator = ({ updateAuthState, userLogged }) => (
+const AppNavigator = ({ updateAuthState }) => (
   <Tab.Navigator
     tabBarOptions={{
       activeBackgroundColor: "white",
@@ -59,11 +60,7 @@ const AppNavigator = ({ updateAuthState, userLogged }) => (
       }}
     >
       {(screenProps) => (
-        <AccountNavigator
-          {...screenProps}
-          userLogged={userLogged}
-          updateAuthState={updateAuthState}
-        />
+        <AccountNavigator {...screenProps} updateAuthState={updateAuthState} />
       )}
     </Tab.Screen>
   </Tab.Navigator>

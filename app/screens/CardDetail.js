@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { DataStore } from "aws-amplify"
+import { DataStore, strike } from "aws-amplify"
 import { Post } from "../../src/models"
 import {
   Image,
@@ -8,10 +8,10 @@ import {
   SectionList,
   TouchableOpacity,
   SafeAreaView,
-  StatusBar,
+  Text,
 } from "react-native"
-import { MaterialCommunityIcons } from "@expo/vector-icons"
-import Screen from "../components/Screen"
+import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons"
+import ImageView from "react-native-image-view"
 
 import AppText from "../components/AppText"
 import test from "../data/test"
@@ -22,6 +22,10 @@ import AppButton from "../components/AppButton"
 
 const CardDetail = ({ route, navigation }) => {
   const [post, setPost] = useState()
+  const [images, setImages] = useState([])
+  //carousel of images
+  const [carouselVisible, setCarouselVisible] = useState(false)
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
@@ -42,6 +46,13 @@ const CardDetail = ({ route, navigation }) => {
   const fetchPost = async () => {
     const response = await DataStore.query(Post, postId).then(setPost)
   }
+
+  //save the post images into state and map them into a formatted array
+  //to display the images in imageView(carousel)
+  const imagesMap = (arr) => {
+    arr = arr.map((uri, index) => ({ source: { uri }, id: index + 1 }))
+    setImages(arr)
+  }
   //Loading
   if (!post) return <ActivityIndicator visible={loading} />
   //Error
@@ -55,13 +66,35 @@ const CardDetail = ({ route, navigation }) => {
       </>
     )
   }
+
   //Success
   return (
     <View>
       <SectionList
         style={{ backgroundColor: "white" }}
         ListHeaderComponent={
+          //icon images
           <View style2={styles.header}>
+            <View
+              style={{
+                alignItems: "center",
+                backgroundColor: colors.light,
+                borderRadius: 45,
+                bottom: 35,
+                flexDirection: "row",
+                padding: 8,
+                position: "absolute",
+                right: 20,
+                zIndex: 100,
+              }}
+            >
+              <AppText
+                style={{ marginRight: 8, fontSize: 18, color: colors.medium }}
+              >
+                {post.images.length}
+              </AppText>
+              <FontAwesome5 name="images" size={18} color={colors.medium} />
+            </View>
             <TouchableOpacity
               onPress={() => navigation.goBack()}
               style={{
@@ -78,7 +111,45 @@ const CardDetail = ({ route, navigation }) => {
                 color={colors.white}
               />
             </TouchableOpacity>
-            <Image source={{ uri: post.images[0] }} style={styles.image} />
+            <TouchableOpacity
+              onPress={() => {
+                imagesMap(post.images)
+                setCarouselVisible(true)
+              }}
+            >
+              <Image source={{ uri: post.images[0] }} style={styles.image} />
+            </TouchableOpacity>
+            <ImageView
+              useNativeDriver={true}
+              backgroundColor={"white"}
+              animationType="slide"
+              images={images}
+              imageIndex={0}
+              isVisible={carouselVisible}
+              isPinchZoomEnabled={false}
+              isSwipeCloseEnabled={false}
+              onClose={() => setCarouselVisible(false)}
+              renderFooter={(currentImage) => (
+                <View
+                  style={{
+                    alignSelf: "center",
+                    bottom: 50,
+                    backgroundColor: colors.light,
+                    borderRadius: 45,
+                    width: 60,
+                    padding: 8,
+                  }}
+                >
+                  <AppText
+                    style={{
+                      alignSelf: "center",
+                    }}
+                  >
+                    {`${currentImage.id} / ${images.length}`}
+                  </AppText>
+                </View>
+              )}
+            />
             <AppText
               style2={{
                 textAlign: "center",
@@ -94,14 +165,16 @@ const CardDetail = ({ route, navigation }) => {
         ListFooterComponent={
           <>
             <ProfileComponent
-              image={require("../assets/pp.png")}
-              title="Username"
-              subTitle="5 posts"
+              image={post.User?.image}
+              title={post.User?.name}
+              subTitle={post.User?.id}
+              buttonTitle="Contacter"
+              buttonAction={() => console.log(`test`)}
             />
           </>
         }
         showsVerticalScrollIndicator={false}
-        sections={test}
+        sections={post.post}
         keyExtractor={(item, index) => item + index}
         renderItem={({ item }) => (
           <AppText style2={styles.subTitle}>{item}</AppText>

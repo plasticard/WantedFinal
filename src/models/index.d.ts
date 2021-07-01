@@ -18,11 +18,21 @@ export declare class User {
 
 export declare class Post {
   readonly id: string;
+  readonly images: (string | null)[];
   readonly name: string;
   readonly age?: number;
-  readonly images: (string | null)[];
-  readonly userID?: string;
+  readonly date?: string;
   readonly User?: User;
+  readonly location?: string;
+  readonly corpulence?: string;
+  readonly height?: number;
+  readonly hair?: string;
+  readonly eyes?: string;
+  readonly outfit?: string;
+  readonly other?: string;
+  readonly tel?: string;
+  readonly email?: string;
+  readonly userID?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Post>);

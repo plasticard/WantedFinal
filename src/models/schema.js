@@ -107,6 +107,14 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "images": {
+                    "name": "images",
+                    "isArray": true,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": false
+                },
                 "name": {
                     "name": "name",
                     "isArray": false,
@@ -121,18 +129,10 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "images": {
-                    "name": "images",
-                    "isArray": true,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": false
-                },
-                "userID": {
-                    "name": "userID",
+                "date": {
+                    "name": "date",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "AWSDateTime",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -148,6 +148,76 @@ export const schema = {
                         "connectionType": "BELONGS_TO",
                         "targetName": "postUserId"
                     }
+                },
+                "location": {
+                    "name": "location",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "corpulence": {
+                    "name": "corpulence",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "height": {
+                    "name": "height",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "hair": {
+                    "name": "hair",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "eyes": {
+                    "name": "eyes",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "outfit": {
+                    "name": "outfit",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "other": {
+                    "name": "other",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "tel": {
+                    "name": "tel",
+                    "isArray": false,
+                    "type": "AWSPhone",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "AWSEmail",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "userID": {
+                    "name": "userID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -213,5 +283,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "5b6bebef5cd338f7fd3479f9fc9014a0"
+    "version": "87c726017a86b74a2b993a1e54f8a3a2"
 };

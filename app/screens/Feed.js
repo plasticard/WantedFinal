@@ -10,16 +10,6 @@ import { DataStore } from "aws-amplify"
 import { Post } from "../../src/models"
 
 const Feed = ({ navigation }) => {
-  const post = [
-    {
-      id: "123",
-      age: 24,
-      name: "yes",
-      images: [
-        "https://pbs.twimg.com/media/E4es6RoWQAIffzY?format=jpg&name=small",
-      ],
-    },
-  ]
   const [posts, setPosts] = useState([])
   const [refresh, setRefresh] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -28,12 +18,11 @@ const Feed = ({ navigation }) => {
   useEffect(() => {
     setLoading(true)
     fetchPosts()
-    setLoading(false)
   }, [])
 
   const fetchPosts = async () => {
-    const response = await DataStore.query(Post)
-    setPosts(response)
+    await DataStore.query(Post).then(setPosts)
+    setLoading(false)
   }
   return (
     <Screen>

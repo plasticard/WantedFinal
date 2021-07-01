@@ -5,7 +5,7 @@ import { Auth } from "aws-amplify"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
 import colors from "../../config/colors"
-
+import Screen from "../../components/Screen"
 const SignIn = ({ navigation, updateAuthState }) => {
   const [username, setUsername] = useState("")
 
@@ -24,7 +24,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <Screen style2={styles.container}>
       <Text style={styles.title}>Bienvenue sur Wanted</Text>
       <Text style={styles.subtitle}>Se connecter</Text>
 
@@ -76,7 +76,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
         onPress={() => Auth.federatedSignIn({ provider: "Google" })}
         iconRight
       />
-    </View>
+    </Screen>
   )
 }
 export default SignIn

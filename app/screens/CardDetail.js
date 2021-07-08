@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react"
-import { DataStore, strike } from "aws-amplify"
-import { Post } from "../../src/models"
+import { Storage } from "aws-amplify"
 import {
   Image,
   StyleSheet,
   View,
   SectionList,
   TouchableOpacity,
-  SafeAreaView,
-  Text,
 } from "react-native"
 import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons"
 import ImageView from "react-native-image-view"
@@ -21,49 +18,72 @@ import ActivityIndicator from "../components/ActivityIndicator"
 import AppButton from "../components/AppButton"
 
 const CardDetail = ({ route, navigation }) => {
-  const [post, setPost] = useState()
-  const [images, setImages] = useState([])
-  //carousel of images
+  //state---------//
+  const [post, setPost] = useState(route.params.item)
+  //Main image
+  const [image, setImage] = useState()
+  //images for the carousel (all the array of images)
+  const [carousel, setCarousel] = useState([])
   const [carouselVisible, setCarouselVisible] = useState(false)
 
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(true)
 
-  const postId = route.params.id
-
+  //fetch post with postId
   useEffect(() => {
     try {
       setLoading(true)
-
-      fetchPost()
+      setPost(post)
       setLoading(false)
+      setError(false)
     } catch (e) {
       console.log(`e`, e)
       setError(true)
       setLoading(false)
     }
-  }, [postId])
-  const fetchPost = async () => {
-    const response = await DataStore.query(Post, postId).then(setPost)
-  }
+  }, [post])
+  //Fetching the images and make them an url if their just a key
+  useEffect(() => {
+    const fetchImages = async () => {
+      const imagesArray = []
+      if (post) {
+        for (let i = 0; i < post.images.length; i++)
+          //the image is already an url
+          if (post.images[i].startsWith("http")) {
+            imagesArray.push(post.images[i])
+          } else {
+            //the image is a key, making it an url
+            const img = await Storage.get(post.images[i])
+            imagesArray.push(img)
+          }
+      }
+      //the first image become the main image like the thumbnail on the feed
+      setImage(imagesArray[0])
+      return imagesArray
+    }
+    fetchImages().then((data) => imagesMap(data))
+  }, [post])
 
   //save the post images into state and map them into a formatted array
   //to display the images in imageView(carousel)
   const imagesMap = (arr) => {
     arr = arr.map((uri, index) => ({ source: { uri }, id: index + 1 }))
-    setImages(arr)
+    setCarousel(arr)
   }
   //Loading
   if (!post) return <ActivityIndicator visible={loading} />
   //Error
   if (error) {
     return (
-      <>
-        <AppText style={{ textAlign: "center" }}>
+      <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
+        <AppText style2={{ textAlign: "center" }}>
           Erreur lors du chargement du post
         </AppText>
-        <AppButton title="Réessayer" onPress={fetchPost} />
-      </>
+        <AppButton
+          title="Réessayer"
+          onPress={() => setPost(route.params.item)}
+        />
+      </View>
     )
   }
 
@@ -113,20 +133,20 @@ const CardDetail = ({ route, navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                imagesMap(post.images)
                 setCarouselVisible(true)
               }}
             >
-              <Image source={{ uri: post.images[0] }} style={styles.image} />
+              <Image source={{ uri: image }} style={styles.image} />
             </TouchableOpacity>
             <ImageView
               useNativeDriver={true}
               backgroundColor={"white"}
               animationType="slide"
-              images={images}
+              images={carousel}
               imageIndex={0}
               isVisible={carouselVisible}
-              isPinchZoomEnabled={false}
+              isPinchZoomEnabled={true}
+              isTapZoomEnabled={false}
               isSwipeCloseEnabled={false}
               onClose={() => setCarouselVisible(false)}
               renderFooter={(currentImage) => (
@@ -145,7 +165,7 @@ const CardDetail = ({ route, navigation }) => {
                       alignSelf: "center",
                     }}
                   >
-                    {`${currentImage.id} / ${images.length}`}
+                    {`${currentImage.id} / ${carousel.length}`}
                   </AppText>
                 </View>
               )}

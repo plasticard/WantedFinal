@@ -27,5 +27,11 @@
         }
       }
     }
+  },
+  "storage": {
+    "wantedmedia": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }

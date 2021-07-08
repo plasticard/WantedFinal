@@ -36,7 +36,8 @@ export default ImageInput = ({ imageUri, onChange }) => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 0.5,
+        allowsEditing: true,
+        quality: 1,
       })
       if (!result.cancelled) {
         onChange(result.uri)

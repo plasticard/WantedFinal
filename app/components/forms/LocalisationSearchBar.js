@@ -10,7 +10,7 @@ import ErrorMessage from "./ErrorMessage"
 import { LogBox } from "react-native"
 
 const LocalisationSearchBar = ({ placeholder, name }) => {
-  const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
+  const { setFieldTouched, setFieldValue, errors, touched } = useFormikContext()
   const [state, setstate] = useState()
 
   return (
@@ -26,7 +26,7 @@ const LocalisationSearchBar = ({ placeholder, name }) => {
         disableScroll
         placeholder={placeholder}
         onPress={(data, details = null) => {
-          handleChange(name)
+          setFieldValue(name, data.description)
         }}
         query={{
           key: "AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s",

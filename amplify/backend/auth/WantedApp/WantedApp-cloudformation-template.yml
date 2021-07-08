@@ -134,14 +134,6 @@ Parameters:
     Type: String
             
   
-  thirdPartyAuth:
-    Type: String
-            
-        
-  authProviders:
-    Type: CommaDelimitedList
-      
-  
   hostedUI:
     Type: String
             
@@ -157,10 +149,6 @@ Parameters:
     Type: String
   
             
-  oAuthMetadata:
-    Type: String
-  
-            
   
   usernameCaseSensitive:
     Type: String
@@ -169,10 +157,17 @@ Parameters:
   dependsOn:
     Type: CommaDelimitedList
       
-  hostedUIProviderCreds:
+  oAuthMetadata:
     Type: String
   
             
+        
+  authProviders:
+    Type: CommaDelimitedList
+      
+  hostedUIProviderCreds:
+    Type: String
+  
             
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]

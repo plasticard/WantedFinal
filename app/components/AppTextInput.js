@@ -9,7 +9,7 @@ export default function AppTextInput({
   ...otherProps
 }) {
   return (
-    <View style={[styles.container, style2]}>
+    <View style={[styles.container, style2, { width: width }]}>
       {icon && (
         <MaterialCommunityIcons
           name={icon}
@@ -19,9 +19,8 @@ export default function AppTextInput({
         />
       )}
       <TextInput
-        autoCapitalize="none"
         autoCorrect={false}
-        style={[defaultStyles.text, styles.textInput]}
+        style={[defaultStyles.text, styles.textInput, { width: width }]}
         {...otherProps}
       />
     </View>

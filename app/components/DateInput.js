@@ -17,7 +17,7 @@ import AppText from "./AppText"
 import colors from "../config/colors"
 
 const DateInput = ({ placeholder, name }) => {
-  const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
+  const { setFieldTouched, setFieldValue, errors, touched } = useFormikContext()
 
   const ios = Platform.OS == "ios" ? true : false
   const [date, setDate] = useState(new Date())
@@ -28,7 +28,7 @@ const DateInput = ({ placeholder, name }) => {
     const currentDate = selectedDate || date
     setShow(ios)
     setDate(currentDate)
-    handleChange(name)
+    setFieldValue(name, currentDate)
     console.log(`currentDate`, currentDate)
   }
 

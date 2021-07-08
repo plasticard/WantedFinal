@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react"
 import {
   Dimensions,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -10,9 +11,10 @@ import {
 import * as Yup from "yup"
 import ProgressBar from "react-native-progress/Bar"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
-import { DataStore } from "aws-amplify"
-import { Post } from "../../src/models"
-
+import { DataStore, Storage, Auth } from "aws-amplify"
+import { Post, User } from "../../src/models"
+import "react-native-get-random-values"
+import { v4 as uuidv4 } from "uuid"
 import AppText from "../components/AppText"
 import { AppFormField } from "../components/forms"
 import MultiForm from "../components/forms/MultiForm"
@@ -41,34 +43,83 @@ const validationSchema = Yup.object().shape({
 })
 const PostEdit = ({ navigation }) => {
   const scrollView = useRef()
-  //progress bar and states gestion
-  const [state, setstate] = useState(0)
+
+  //progress bar and steps gestion
+  const [step, setStep] = useState(0)
   const changeProgress = (i) => {
-    setstate(state + i)
+    setStep(step + i)
   }
+
   //post data
   const handleSubmit = async (post) => {
-    console.log(`postEdit`, post)
+    if (!post) return
+    const userInfo = await Auth.currentAuthenticatedUser()
+    const userSub = userInfo.attributes.sub
+    const user = (await DataStore.query(User)).find((u) => u.sub === userSub)
+    if (!user) {
+      console.error("User not found")
+      return
+    }
+    //parse age to number to fit in the DB model
+    post.age = parseInt(post.age)
+    post.height = parseInt(post.height)
 
-    //parsing age to number to fit in the DB model
-    // console.log(`post.age`, typeof post.age)
-    //post.age = parseInt(post.age)
-    await DataStore.save(new Post(post))
+    //save every images of the post in Storage and return a key for each
+    var imageKeys = []
+    const max = post.images.length
+    for (let i = 0; i < max; i++) {
+      const formattedImg = await uploadImage(post.images[i])
+      imageKeys.push(formattedImg)
+    }
+    ///////
+
+    //save the post with all formatted fields
+    await DataStore.save(
+      new Post({
+        images: imageKeys,
+        name: post.name,
+        age: post.age,
+        date: "2020-03-12T13:00:00.000Z",
+        location: post.location,
+        corpulence: post.corpulence,
+        height: post.height,
+        hair: post.hair,
+        eyes: post.eyes,
+        outfit: post.outfit,
+        other: post.other,
+        tel: `+33${post.tel}`,
+        email: post.email,
+        userID: user.id,
+      })
+    )
     navigation.navigate("FeedNavigator")
-    setstate(0)
+    setStep(0)
+    //resetForm()
+  }
+  //upload images in Storage
+  const uploadImage = async (image) => {
+    if (!image) return
+    try {
+      const response = await fetch(image)
+      const blob = await response.blob()
+      const fileKey = `${uuidv4()}.png`
+      await Storage.put(fileKey, blob)
+
+      return fileKey
+    } catch (err) {
+      console.log("(PostEdit.uploadImage)Error uploading file:", err)
+      return null
+    }
   }
   return (
     <Screen>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
+      <View style={styles.container}>
         <TouchableOpacity
           onPress={() => {
             navigation.goBack()
           }}
           style={{
-            marginRight: 16,
+            marginLeft: 16,
             marginVertical: 8,
           }}
         >
@@ -82,7 +133,7 @@ const PostEdit = ({ navigation }) => {
           animated={true}
           animationType="spring"
           width={Dimensions.get("window").width}
-          progress={state}
+          progress={step}
           color={colors.secondary}
           unfilledColor={colors.light}
           borderColor={colors.background}
@@ -90,11 +141,17 @@ const PostEdit = ({ navigation }) => {
           borderRadius={0}
           useNativeDriver={true}
         />
-
+      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : "height"}
+        style={{ flex: 1 }}
+      >
         <ScrollView
           keyboardShouldPersistTaps="handled"
           ref={scrollView}
-          onContentSizeChange={() => scrollView.current.scrollToStart()}
+          onContentSizeChange={() =>
+            scrollView.current.scrollTo({ x: 0, y: 0, animated: true })
+          }
         >
           <MultiForm
             validationSchema={validationSchema}
@@ -108,15 +165,14 @@ const PostEdit = ({ navigation }) => {
               corpulence: "",
               height: "",
               hair: "",
-              eye: "",
+              eyes: "",
               outfit: "",
               other: "",
               email: "",
               tel: "",
             }}
             onSubmit={(values) => {
-              handleSubmit(handleSubmit)
-              console.log("values", values)
+              handleSubmit(values)
             }}
           >
             {
@@ -128,7 +184,7 @@ const PostEdit = ({ navigation }) => {
 
               <AppFormField
                 name="name"
-                placeholder="Nom, prénom, surnom..."
+                placeholder="Nom, prénom..."
                 icon="account"
               />
               <AppFormField
@@ -136,7 +192,7 @@ const PostEdit = ({ navigation }) => {
                 keyboardType="numeric"
                 maxLength={3}
                 placeholder="Age"
-                style2={{ align: "flex-start", width: "22%", marginLeft: 16 }}
+                width={"22%"}
               />
               <DateInput
                 name="date"
@@ -163,7 +219,7 @@ const PostEdit = ({ navigation }) => {
                 keyboardType="numeric"
                 maxLength={3}
                 placeholder="Taille (cm)"
-                style2={{ width: "30%" }}
+                width={"30%"}
               />
 
               <AppFormField name="hair" placeholder="Cheveux" />
@@ -186,12 +242,25 @@ const PostEdit = ({ navigation }) => {
             }
             <View>
               <AppText style2={styles.title}>Contact</AppText>
-              <AppFormField
-                name="tel"
-                placeholder="Téléphone"
-                keyboardType="numeric"
-                maxLength={10}
-              />
+              <View
+                style={{
+                  marginHorizontal: 16,
+                  paddingLeft: 16,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  backgroundColor: colors.light,
+                  borderRadius: 10,
+                }}
+              >
+                <AppText>+33</AppText>
+                <AppFormField
+                  width={"40%"}
+                  name="tel"
+                  placeholder="Téléphone"
+                  keyboardType="numeric"
+                  maxLength={9}
+                />
+              </View>
               <AppFormField name="email" placeholder="Email" />
             </View>
           </MultiForm>
@@ -205,7 +274,7 @@ export default PostEdit
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    zIndex: 100,
   },
   title: {
     fontSize: 24,

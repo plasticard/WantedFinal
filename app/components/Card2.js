@@ -1,19 +1,31 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Image, StyleSheet, View, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 import colors from "../config/colors"
 import AppText from "./AppText"
 import routes from "../navigation/routes"
+
+import { Storage } from "aws-amplify"
 const Card2 = ({ item }) => {
-  const { id, name: title, age: subTitle, images, userID } = item
+  //state
   const navigation = useNavigation()
-  console.log(`images`, images)
+  const { id, name: title, age: subTitle, images, userID } = item
+  const [image, setImage] = useState()
+
+  useEffect(() => {
+    if (images) {
+      if (images[0].startsWith("http")) setImage(images[0])
+      else {
+        Storage.get(images[0]).then(setImage)
+      }
+    }
+  }, [item])
   return (
     <TouchableOpacity
       style={styles.card}
       onPress={() =>
         navigation.navigate(routes.CARD_DETAIL, {
-          id: id,
+          item: item,
         })
       }
     >
@@ -31,7 +43,14 @@ const Card2 = ({ item }) => {
           }),
         }}
       >
-        <Image style={styles.image} source={{ uri: images[0] }} />
+        {image ? (
+          <Image
+            style={styles.image}
+            source={{
+              uri: image,
+            }}
+          />
+        ) : null}
       </View>
       <View style={styles.details}>
         <View

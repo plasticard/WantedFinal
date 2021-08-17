@@ -4,6 +4,7 @@ import { Auth } from "aws-amplify"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
 import colors from "../../config/colors"
+import Screen from "../../components/Screen"
 
 export default SignUp = ({ navigation }) => {
   const [username, setUsername] = useState("")
@@ -23,7 +24,7 @@ export default SignUp = ({ navigation }) => {
   }
 
   return (
-    <>
+    <Screen style2={styles.container}>
       <Text style={styles.title}>Bienvenue sur Wanted</Text>
       <Text style={styles.subtitle}>S'inscrire</Text>
 
@@ -58,7 +59,7 @@ export default SignUp = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </>
+    </Screen>
   )
 }
 const styles = StyleSheet.create({

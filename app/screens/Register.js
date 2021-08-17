@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
 })
 const Register = ({ navigation }) => {
   return (
-    <Screen style2={styles.container}>
+    <Screen>
       <AppForm
         initialValues={{ name: "", email: "", password: "" }}
         onSubmit={(values) => console.log(`values`, values)}
@@ -56,6 +56,4 @@ const Register = ({ navigation }) => {
 
 export default Register
 
-const styles = StyleSheet.create({
-  container: { padding: 10 },
-})
+const styles = StyleSheet.create({})

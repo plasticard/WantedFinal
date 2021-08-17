@@ -145,7 +145,7 @@ const CardDetail = ({ route, navigation }) => {
               images={carousel}
               imageIndex={0}
               isVisible={carouselVisible}
-              isPinchZoomEnabled={true}
+              isPinchZoomEnabled={false}
               isTapZoomEnabled={false}
               isSwipeCloseEnabled={false}
               onClose={() => setCarouselVisible(false)}

@@ -4,8 +4,3 @@ Reflechir a suite de l'app
 Comprendre Linking et faire un URLscheme
 Mettre en place le login with facebook
 
-
-Valider les formulaire formik et faire les fonctions CRUD
-Mettre en place le datastore pour upload les images
-Cliquer sur la photo dans CardDetails pour l'afficher en plein ecran
-Faire un carousel d'images

@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Storage } from "aws-amplify"
 import {
   Image,
   StyleSheet,
   View,
-  SectionList,
+  ScrollView,
   TouchableOpacity,
 } from "react-native"
 import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons"
 import ImageView from "react-native-image-view"
+import moment from "moment"
+import "moment/locale/fr"
+moment.locale("fr")
 
 import AppText from "../components/AppText"
-import test from "../data/test"
 import colors from "../config/colors"
 import ProfileComponent from "../components/ProfileComponent"
 import ActivityIndicator from "../components/ActivityIndicator"
 import AppButton from "../components/AppButton"
+import DetailsText from "../components/DetailsText"
+import UserContext from "../hooks/UserContext"
+import Separator from "../components/Separator"
 
 const CardDetail = ({ route, navigation }) => {
   //state---------//
@@ -29,6 +34,12 @@ const CardDetail = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(true)
 
+  //
+  const { user } = useContext(UserContext)
+
+  const { name, age, date, location } = post
+  const { corpulence, height, hair, eyes, outfit, other } = post
+  const { tel, email } = post
   //fetch post with postId
   useEffect(() => {
     try {
@@ -89,122 +100,137 @@ const CardDetail = ({ route, navigation }) => {
 
   //Success
   return (
-    <View>
-      <SectionList
-        style={{ backgroundColor: "white" }}
-        ListHeaderComponent={
-          //icon images
-          <View style2={styles.header}>
+    <View style={{ backgroundColor: "white" }}>
+      <View style2={styles.header}>
+        <View
+          style={{
+            alignItems: "center",
+            backgroundColor: colors.light,
+            borderRadius: 45,
+            bottom: 35,
+            flexDirection: "row",
+            padding: 8,
+            position: "absolute",
+            right: 20,
+            zIndex: 100,
+          }}
+        >
+          <AppText
+            style={{ marginRight: 8, fontSize: 18, color: colors.medium }}
+          >
+            {post.images.length}
+          </AppText>
+          <FontAwesome5 name="images" size={18} color={colors.medium} />
+        </View>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{
+            position: "absolute",
+            zIndex: 100,
+            borderRadius: 12,
+            left: 10,
+            top: 25,
+          }}
+        >
+          <MaterialCommunityIcons
+            name="arrow-left-circle"
+            size={30}
+            color={colors.white}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setCarouselVisible(true)
+          }}
+        >
+          <Image source={{ uri: image }} style={styles.image} />
+        </TouchableOpacity>
+        <ImageView
+          useNativeDriver={true}
+          backgroundColor={"white"}
+          animationType="slide"
+          images={carousel}
+          imageIndex={0}
+          isVisible={carouselVisible}
+          isPinchZoomEnabled={false}
+          isTapZoomEnabled={false}
+          isSwipeCloseEnabled={false}
+          onClose={() => setCarouselVisible(false)}
+          renderFooter={(currentImage) => (
             <View
               style={{
-                alignItems: "center",
+                alignSelf: "center",
+                bottom: 50,
                 backgroundColor: colors.light,
                 borderRadius: 45,
-                bottom: 35,
-                flexDirection: "row",
+                width: 60,
                 padding: 8,
-                position: "absolute",
-                right: 20,
-                zIndex: 100,
               }}
             >
               <AppText
-                style={{ marginRight: 8, fontSize: 18, color: colors.medium }}
+                style={{
+                  alignSelf: "center",
+                }}
               >
-                {post.images.length}
+                {`${currentImage.id} / ${carousel.length}`}
               </AppText>
-              <FontAwesome5 name="images" size={18} color={colors.medium} />
             </View>
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={{
-                position: "absolute",
-                zIndex: 100,
-                borderRadius: 12,
-                left: 10,
-                top: 25,
-              }}
-            >
-              <MaterialCommunityIcons
-                name="arrow-left-circle"
-                size={30}
-                color={colors.white}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setCarouselVisible(true)
-              }}
-            >
-              <Image source={{ uri: image }} style={styles.image} />
-            </TouchableOpacity>
-            <ImageView
-              useNativeDriver={true}
-              backgroundColor={"white"}
-              animationType="slide"
-              images={carousel}
-              imageIndex={0}
-              isVisible={carouselVisible}
-              isPinchZoomEnabled={false}
-              isTapZoomEnabled={false}
-              isSwipeCloseEnabled={false}
-              onClose={() => setCarouselVisible(false)}
-              renderFooter={(currentImage) => (
-                <View
-                  style={{
-                    alignSelf: "center",
-                    bottom: 50,
-                    backgroundColor: colors.light,
-                    borderRadius: 45,
-                    width: 60,
-                    padding: 8,
-                  }}
-                >
-                  <AppText
-                    style={{
-                      alignSelf: "center",
-                    }}
-                  >
-                    {`${currentImage.id} / ${carousel.length}`}
-                  </AppText>
-                </View>
-              )}
-            />
-            <AppText
-              style2={{
-                textAlign: "center",
-                fontSize: 20,
-                width: "100%",
-                color: colors.danger,
-              }}
-            >
-              Disparu à Paris le 14/03/2020
-            </AppText>
-          </View>
-        }
-        ListFooterComponent={
-          <>
-            <ProfileComponent
-              image={post.User?.image}
-              title={post.User?.name}
-              subTitle={post.User?.id}
-              buttonTitle="Contacter"
-              buttonAction={() => console.log(`test`)}
-            />
-          </>
-        }
+          )}
+        />
+      </View>
+      <ScrollView
         showsVerticalScrollIndicator={false}
-        sections={post.post}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => (
-          <AppText style2={styles.subTitle}>{item}</AppText>
-        )}
-        renderSectionHeader={({ section: { title } }) => (
-          <View style={{ flex: 1, backgroundColor: colors.background }}>
-            <AppText style2={styles.title}>{title}</AppText>
+        style={{ height: "68%" }}
+      >
+        <AppText
+          style2={{
+            textAlign: "center",
+            fontSize: 20,
+            width: "90%",
+            color: colors.danger,
+          }}
+        >
+          {`Disparu le ${moment(date).format("LL")} à ${location}`}
+        </AppText>
+        <View style={{ padding: 20 }}>
+          <AppText style={styles.sectionTitle}>Identité</AppText>
+          <View style={styles.section}>
+            <DetailsText text={name} subText={"Nom"} />
+            <DetailsText text={age} subText={"Age"} other={" ans"} />
+            <DetailsText text={location} subText={"Lieu de disparition"} />
           </View>
-        )}
-      />
+          <Separator />
+          <AppText style={styles.sectionTitle}>Description physique</AppText>
+          <View style={styles.section}>
+            {corpulence && (
+              <DetailsText text={corpulence} subText={"Corpulence"} />
+            )}
+            {height && (
+              <DetailsText text={height} subText={"Taille"} other=" cm" />
+            )}
+            {hair && <DetailsText text={hair} subText={"Cheveux"} />}
+            {eyes && <DetailsText text={eyes} subText={"Yeux"} />}
+            {outfit && <DetailsText text={outfit} subText={"Tenue"} />}
+            {other && <DetailsText text={other} subText={"Autre"} />}
+          </View>
+          <Separator />
+
+          <AppText style={styles.sectionTitle}>Contact</AppText>
+          <View style={styles.section}>
+            <DetailsText text={tel} subText={"Téléphone"} />
+            {email && <DetailsText text={email} subText={"Email"} />}
+          </View>
+        </View>
+      </ScrollView>
+      <View>
+        {/*  <ProfileComponent
+          image={user.image}
+          title={user.name}
+          subTitle={user.id}
+          buttonTitle="Contacter"
+          buttonAction={() => console.log(`test`)}
+        />*/}
+      </View>
     </View>
   )
 }
@@ -221,8 +247,8 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   header: {
-    borderRightColor: colors.white,
     width: "100%",
+    borderColor: "black",
   },
   title: {
     marginBottom: 7,
@@ -232,11 +258,16 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginLeft: 8,
   },
-  subTitle: {
-    fontSize: 15,
+  sectionTitle: {
+    fontSize: 24,
     color: colors.black,
-    fontWeight: "normal",
+    fontWeight: "bold",
     textAlign: "left",
-    marginLeft: 16,
+  },
+  section: {
+    marginBottom: 24,
+    marginTop: 8,
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 })

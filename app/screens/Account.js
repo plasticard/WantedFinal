@@ -56,7 +56,7 @@ const Account = ({ navigation, updateAuthState }) => {
       <Screen style2={styles.screen}>
         <ProfileComponent
           image={user.image}
-          title={user.sub}
+          title={user.name}
           subTitle={user.name}
           buttonTitle="Modifier"
           buttonAction={() => setModal(true)}

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { Image, StyleSheet, View, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/core"
+import moment from "moment"
+import "moment/locale/fr"
+moment.locale("fr")
+
 import colors from "../config/colors"
 import AppText from "./AppText"
 import routes from "../navigation/routes"
@@ -9,7 +13,7 @@ import { Storage } from "aws-amplify"
 const Card2 = ({ item }) => {
   //state
   const navigation = useNavigation()
-  const { id, name: title, age: subTitle, images, userID } = item
+  const { id, name, age, images, location, createdAt } = item
   const [image, setImage] = useState()
 
   useEffect(() => {
@@ -61,8 +65,8 @@ const Card2 = ({ item }) => {
             justifyContent: "space-between",
           }}
         >
-          <AppText style2={styles.title}>{title}</AppText>
-          <AppText style2={styles.title}>{subTitle}</AppText>
+          <AppText style2={styles.title}>{name}</AppText>
+          <AppText style2={styles.title}>{age}</AppText>
         </View>
         <View
           style={{
@@ -72,8 +76,10 @@ const Card2 = ({ item }) => {
             justifyContent: "space-between",
           }}
         >
-          <AppText style2={styles.description}>9/18/16</AppText>
-          <AppText style2={styles.description}>Paris</AppText>
+          <AppText style2={styles.description}>
+            {moment().startOf("day").fromNow(createdAt)}
+          </AppText>
+          <AppText style2={styles.description}>DISPARITION</AppText>
         </View>
       </View>
     </TouchableOpacity>

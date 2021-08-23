@@ -26,10 +26,10 @@ import LocalisationSearchBar from "../components/forms/LocalisationSearchBar"
 
 const validationSchema = Yup.object().shape({
   images: Yup.array().min(1, "Sélectionner au moins 1 image"),
-  name: Yup.string().min(3, "Entrer un nom").label("Nom"),
+  name: Yup.string().required().min(3, "Entrer un nom").label("Nom"),
   age: Yup.number().min(0).max(120).label("Age"),
-  date: Yup.date().label("Date"),
-  location: Yup.string().min(4).label("Localisation"),
+  date: Yup.date().required().label("Date"),
+  location: Yup.string().required().label("Localisation"),
 
   corpulence: Yup.string().label("Corpulence"),
   height: Yup.number().min(100).max(220).label("Taille"),

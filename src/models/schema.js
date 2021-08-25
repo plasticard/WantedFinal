@@ -201,14 +201,14 @@ export const schema = {
                 "tel": {
                     "name": "tel",
                     "isArray": false,
-                    "type": "AWSPhone",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
                 "email": {
                     "name": "email",
                     "isArray": false,
-                    "type": "AWSEmail",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -283,5 +283,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "87c726017a86b74a2b993a1e54f8a3a2"
+    "version": "2fbc0e8f76009bf6e5fe6c6a8b0ea1f2"
 };

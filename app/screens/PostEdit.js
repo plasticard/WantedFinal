@@ -4,14 +4,20 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Modal,
   StyleSheet,
   TouchableOpacity,
   View,
+  Image,
+  FlatList,
+  Pressable,
 } from "react-native"
 import * as Yup from "yup"
 import ProgressBar from "react-native-progress/Bar"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { DataStore, Storage, Auth } from "aws-amplify"
+
+import ActivityIndicator from "../components/ActivityIndicator"
 import { Post, User } from "../../src/models"
 import "react-native-get-random-values"
 import { v4 as uuidv4 } from "uuid"
@@ -23,6 +29,7 @@ import colors from "../config/colors"
 import DateInput from "../components/DateInput"
 import ImagePicker from "../components/forms/ImagePicker"
 import LocalisationSearchBar from "../components/forms/LocalisationSearchBar"
+import AppButton from "../components/AppButton"
 
 const validationSchema = Yup.object().shape({
   images: Yup.array().min(1, "Sélectionner au moins 1 image"),
@@ -38,11 +45,40 @@ const validationSchema = Yup.object().shape({
   outfit: Yup.string().label("Tenue"),
   other: Yup.string().label("Autre"),
 
-  tel: Yup.string().label("Téléphone"),
-  email: Yup.string().label("Email"),
+  tel: Yup.string().required().label("Téléphone"),
+  email: Yup.string().email().label("Email"),
 })
+const categories = [
+  {
+    backgroundColor: "#fc5c65",
+    icon: "floor-lamp",
+    label: "Disparition",
+    value: 1,
+  },
+  {
+    backgroundColor: "#fd9644",
+    icon: "car",
+    label: "Enlèvement",
+    value: 2,
+  },
+  {
+    backgroundColor: "#fed330",
+    icon: "camera",
+    label: "Fuite",
+    value: 3,
+  },
+  {
+    backgroundColor: "#26de81",
+    icon: "cards",
+    label: "Ne sais pas",
+    value: 4,
+  },
+]
 const PostEdit = ({ navigation }) => {
   const scrollView = useRef()
+
+  const [loading, setLoading] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
 
   //progress bar and steps gestion
   const [step, setStep] = useState(0)
@@ -52,6 +88,8 @@ const PostEdit = ({ navigation }) => {
 
   //post data
   const handleSubmit = async (post) => {
+    console.log(`post`, post)
+    setLoading(true)
     if (!post) return
     const userInfo = await Auth.currentAuthenticatedUser()
     const userSub = userInfo.attributes.sub
@@ -79,7 +117,7 @@ const PostEdit = ({ navigation }) => {
         images: imageKeys,
         name: post.name,
         age: post.age,
-        date: "2020-03-12T13:00:00.000Z",
+        date: "2021-08-06T12:10:42.315Z",
         location: post.location,
         corpulence: post.corpulence,
         height: post.height,
@@ -87,14 +125,14 @@ const PostEdit = ({ navigation }) => {
         eyes: post.eyes,
         outfit: post.outfit,
         other: post.other,
-        tel: `+33${post.tel}`,
+        tel: post.tel,
         email: post.email,
         userID: user.id,
       })
     )
     navigation.navigate("FeedNavigator")
     setStep(0)
-    //resetForm()
+    setLoading(false)
   }
   //upload images in Storage
   const uploadImage = async (image) => {
@@ -114,6 +152,9 @@ const PostEdit = ({ navigation }) => {
   return (
     <Screen>
       <View style={styles.container}>
+        {
+          //<ActivityIndicator visible={loading}/>
+        }
         <TouchableOpacity
           onPress={() => {
             navigation.goBack()
@@ -173,6 +214,8 @@ const PostEdit = ({ navigation }) => {
             }}
             onSubmit={(values) => {
               handleSubmit(values)
+              console.log(`values`, values)
+              // resetForm({ values: initialValues })
             }}
           >
             {
@@ -180,6 +223,10 @@ const PostEdit = ({ navigation }) => {
             }
             <View>
               <AppText style2={styles.title}>Identité et Signalement</AppText>
+              <AppText style2={{ marginLeft: 16 }}>
+                Remplissez le plus de champs possible.
+              </AppText>
+              <AppButton onPress={() => setModalVisible(true)} />
               <ImagePicker name="images" />
 
               <AppFormField
@@ -200,7 +247,7 @@ const PostEdit = ({ navigation }) => {
                 icon="calendar-today"
               />
               <LocalisationSearchBar
-                placeholder="Dernière localisation"
+                placeholder="Lieu de disparition"
                 name="location"
               />
             </View>
@@ -242,30 +289,56 @@ const PostEdit = ({ navigation }) => {
             }
             <View>
               <AppText style2={styles.title}>Contact</AppText>
-              <View
-                style={{
-                  marginHorizontal: 16,
-                  paddingLeft: 16,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  backgroundColor: colors.light,
-                  borderRadius: 10,
-                }}
-              >
-                <AppText>+33</AppText>
-                <AppFormField
-                  width={"40%"}
-                  name="tel"
-                  placeholder="Téléphone"
-                  keyboardType="numeric"
-                  maxLength={9}
-                />
-              </View>
+
+              <AppFormField
+                width={"40%"}
+                name="tel"
+                placeholder="Téléphone"
+                keyboardType="numeric"
+                maxLength={10}
+              />
+
               <AppFormField name="email" placeholder="Email" />
             </View>
           </MultiForm>
         </ScrollView>
       </KeyboardAvoidingView>
+      <Modal visible={modalVisible} transparent={true} animationType="slide">
+        <View
+          style={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+            height: "30%",
+            backgroundColor: colors.medium,
+            borderTopStartRadius: 25,
+            borderTopEndRadius: 25,
+          }}
+        >
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(false)
+            }}
+            style={{
+              marginLeft: 16,
+              marginVertical: 8,
+            }}
+          >
+            <MaterialCommunityIcons
+              name="close-circle"
+              size={30}
+              color={colors.white}
+            />
+          </TouchableOpacity>
+          <FlatList
+            horizontal
+            data={categories}
+            keyExtractor={(item) => item.value.toString()}
+            numColumns={1}
+            renderItem={({ item }) => <AppText>{item.label}</AppText>}
+          />
+        </View>
+      </Modal>
     </Screen>
   )
 }
@@ -277,7 +350,8 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   title: {
-    fontSize: 24,
+    color: colors.secondary,
+    fontSize: 30,
     marginLeft: 20,
     fontWeight: "600",
     marginVertical: 30,

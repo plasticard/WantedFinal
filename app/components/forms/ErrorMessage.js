@@ -12,5 +12,5 @@ const ErrorMessage = ({ error, visible }) => {
 export default ErrorMessage
 
 const styles = StyleSheet.create({
-  error: { color: colors.danger },
+  error: { color: colors.danger, marginLeft: 16, fontSize: 16 },
 })

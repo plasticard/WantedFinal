@@ -2,22 +2,26 @@ import React, { useState } from "react"
 import { View, Text, TouchableOpacity, Button, StyleSheet } from "react-native"
 import { Auth } from "aws-amplify"
 
+import ActivityIndicator from "../../components/ActivityIndicator"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
 import colors from "../../config/colors"
 import Screen from "../../components/Screen"
 const SignIn = ({ navigation, updateAuthState }) => {
   const [username, setUsername] = useState("")
-
   const [password, setPassword] = useState("")
+
+  const [loading, setLoading] = useState(false)
 
   async function signIn() {
     try {
+      setLoading(true)
       await Auth.signIn(username, password)
 
       console.log(" Success")
 
       updateAuthState("loggedIn")
+      setLoading(false)
     } catch (error) {
       console.log(" Error signing in...", error)
     }
@@ -25,6 +29,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
 
   return (
     <Screen style2={styles.container}>
+      <ActivityIndicator visible={loading} />
       <Text style={styles.title}>Bienvenue sur Wanted</Text>
       <Text style={styles.subtitle}>Se connecter</Text>
 

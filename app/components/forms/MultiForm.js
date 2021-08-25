@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import { Formik, Form } from "formik"
+import { Formik } from "formik"
 import AppButton from "../AppButton"
-import { Button, View } from "react-native"
+import { View } from "react-native"
 import SubmitButton from "./SubmitButton"
 
 function MultiForm({

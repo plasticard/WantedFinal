@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import {
   Platform,
   StyleSheet,
@@ -24,12 +24,16 @@ const DateInput = ({ placeholder, name }) => {
   const [show, setShow] = useState(ios)
   const formattedDate = moment(date).format("LL")
 
+  useEffect(() => {
+    setFieldValue(name, date)
+    console.log(`date`, date)
+  }, [])
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date
     setShow(ios)
     setDate(currentDate)
     setFieldValue(name, currentDate)
-    console.log(`currentDate`, currentDate)
   }
 
   return (

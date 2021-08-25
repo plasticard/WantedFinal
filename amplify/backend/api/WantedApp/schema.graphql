@@ -20,8 +20,8 @@ type Post @model @key(name: "byUser", fields: ["userID"]) @auth(rules: [{allow: 
   eyes: String
   outfit: String
   other: String
-  tel: AWSPhone
-  email: AWSEmail
+  tel: String
+  email: String
   userID: ID
 }
  

@@ -12,7 +12,6 @@ export default function ImageInputList({
 
   return (
     <View style={{ marginHorizontal: 16 }}>
-      <AppText>Photos</AppText>
       <ScrollView
         ref={scrollView}
         horizontal

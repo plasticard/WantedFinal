@@ -2,5 +2,4 @@ Reflechir a suite de l'app
 
 
 Comprendre Linking et faire un URLscheme
-Mettre en place le login with facebook
 

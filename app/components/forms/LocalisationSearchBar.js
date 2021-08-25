@@ -7,11 +7,16 @@ import { useFormikContext } from "formik"
 import defaultStyles from "../../config/styles"
 import ErrorMessage from "./ErrorMessage"
 
-import { LogBox } from "react-native"
-
 const LocalisationSearchBar = ({ placeholder, name }) => {
-  const { setFieldTouched, setFieldValue, errors, touched } = useFormikContext()
-  const [state, setstate] = useState()
+  const {
+    setFieldTouched,
+    setFieldValue,
+    values,
+    errors,
+    touched,
+  } = useFormikContext()
+
+  const [text, setText] = useState()
 
   return (
     <View style={styles.container}>
@@ -25,13 +30,19 @@ const LocalisationSearchBar = ({ placeholder, name }) => {
         enablePoweredByContainer={false}
         disableScroll
         placeholder={placeholder}
-        onPress={(data, details = null) => {
+        onPress={(data) => {
+          setText(data.description)
           setFieldValue(name, data.description)
+        }}
+        textInputProps={{
+          onChangeText: (text) => setText(text),
+          value: text,
         }}
         query={{
           key: "AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s",
           language: "fr",
           types: "(cities)",
+          components: "country:fr",
         }}
         styles={{
           textInput: styles.textInput,

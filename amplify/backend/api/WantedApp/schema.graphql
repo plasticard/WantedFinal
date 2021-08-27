@@ -1,4 +1,11 @@
-type User @model @auth(rules: [{allow: owner, operations: [read, create, update, delete]}, {allow: private, operations: [read, create]}]) {
+type User
+  @model
+  @auth(
+    rules: [
+      { allow: owner, operations: [read, create, update, delete] }
+      { allow: private, operations: [read, create] }
+    ]
+  ) {
   id: ID!
   name: String
   image: String
@@ -6,7 +13,15 @@ type User @model @auth(rules: [{allow: owner, operations: [read, create, update,
   sub: String
 }
 
-type Post @model @key(name: "byUser", fields: ["userID"]) @auth(rules: [{allow: private, operations: [read, create]}, {allow: owner, operations: [read, create, update, delete]}]) {
+type Post
+  @model
+  @key(name: "byUser", fields: ["userID"])
+  @auth(
+    rules: [
+      { allow: private, operations: [read, create] }
+      { allow: owner, operations: [read, create, update, delete] }
+    ]
+  ) {
   id: ID!
   images: [String]!
   name: String!
@@ -24,4 +39,3 @@ type Post @model @key(name: "byUser", fields: ["userID"]) @auth(rules: [{allow: 
   email: String
   userID: ID
 }
- 

@@ -2,26 +2,22 @@ import React, { useState } from "react"
 import { View, Text, TouchableOpacity, Button, StyleSheet } from "react-native"
 import { Auth } from "aws-amplify"
 
-import ActivityIndicator from "../../components/ActivityIndicator"
 import AppTextInput from "../../components/AppTextInput"
 import AppButton from "../../components/AppButton"
 import colors from "../../config/colors"
 import Screen from "../../components/Screen"
 const SignIn = ({ navigation, updateAuthState }) => {
   const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
 
-  const [loading, setLoading] = useState(false)
+  const [password, setPassword] = useState("")
 
   async function signIn() {
     try {
-      setLoading(true)
       await Auth.signIn(username, password)
 
       console.log(" Success")
 
       updateAuthState("loggedIn")
-      setLoading(false)
     } catch (error) {
       console.log(" Error signing in...", error)
     }
@@ -29,9 +25,8 @@ const SignIn = ({ navigation, updateAuthState }) => {
 
   return (
     <Screen style2={styles.container}>
-      <ActivityIndicator visible={loading} />
-      <Text style={styles.title}>Bienvenue sur Wanted</Text>
-      <Text style={styles.subtitle}>Se connecter</Text>
+      <Text style={styles.title}>Welcome on Wanted app</Text>
+      <Text style={styles.subtitle}>Please login to your account</Text>
 
       <AppTextInput
         value={username}
@@ -48,29 +43,28 @@ const SignIn = ({ navigation, updateAuthState }) => {
         value={password}
         onChangeText={(text) => setPassword(text)}
         icon="lock"
-        placeholder="Mot de passe"
+        placeholder="Password"
         autoCapitalize="none"
         autoCorrect={false}
         secureTextEntry
         textContentType="password"
       />
 
-      <AppButton title="Connexion" onPress={signIn} />
+      <AppButton title="Log in" onPress={signIn} />
 
       <View style={styles.footerButtonContainer}>
         <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
           <Text style={styles.forgotPasswordButtonText}>
-            Pas de compte ? Inscrivez-vous
+            Not registered ? Sign Up
           </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.footerButtonContainer}>
         <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
-          <Text style={styles.forgotPasswordButtonText}>
-            Mot de passe oublié
-          </Text>
+          <Text style={styles.forgotPasswordButtonText}>Forgot password</Text>
         </TouchableOpacity>
       </View>
+      {/*
       <Button
         title="testFB"
         onPress={() => Auth.federatedSignIn({ provider: "Facebook" })}
@@ -81,6 +75,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
         onPress={() => Auth.federatedSignIn({ provider: "Google" })}
         iconRight
       />
+      */}
     </Screen>
   )
 }

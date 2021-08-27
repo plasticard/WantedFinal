@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import { Storage } from "aws-amplify"
+import { DataStore, Storage } from "aws-amplify"
 import {
   Image,
   StyleSheet,
@@ -19,12 +19,13 @@ import ProfileComponent from "../components/ProfileComponent"
 import ActivityIndicator from "../components/ActivityIndicator"
 import AppButton from "../components/AppButton"
 import DetailsText from "../components/DetailsText"
-import UserContext from "../hooks/UserContext"
+import { User } from "../../src/models"
 import Separator from "../components/Separator"
 
 const CardDetail = ({ route, navigation }) => {
   //state---------//
   const [post, setPost] = useState(route.params.item)
+  const [postUser, setPostUser] = useState()
   //Main image
   const [image, setImage] = useState()
   //images for the carousel (all the array of images)
@@ -34,17 +35,21 @@ const CardDetail = ({ route, navigation }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(true)
 
-  //
-  const { user } = useContext(UserContext)
-
   const { name, age, date, location } = post
   const { corpulence, height, hair, eyes, outfit, other } = post
   const { tel, email } = post
+
+  const fetchPostUser = async () => {
+    await DataStore.query(User, post.userID).then(setPostUser)
+    console.log(`postUser`, postUser)
+  }
+
   //fetch post with postId
   useEffect(() => {
     try {
       setLoading(true)
       setPost(post)
+      fetchPostUser()
       setLoading(false)
       setError(false)
     } catch (e) {
@@ -100,7 +105,10 @@ const CardDetail = ({ route, navigation }) => {
 
   //Success
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{ backgroundColor: "white" }}
+    >
       <View style2={styles.header}>
         <View
           style={{
@@ -178,9 +186,8 @@ const CardDetail = ({ route, navigation }) => {
           )}
         />
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ height: "68%" }}
+      <View
+      // style={{ height: "68%" }}
       >
         <AppText
           style2={{
@@ -217,21 +224,26 @@ const CardDetail = ({ route, navigation }) => {
 
           <AppText style={styles.sectionTitle}>Contact</AppText>
           <View style={styles.section}>
-            <DetailsText text={tel} subText={"Téléphone"} />
+            {tel && <DetailsText text={tel} subText={"Téléphone"} />}
             {email && <DetailsText text={email} subText={"Email"} />}
           </View>
         </View>
-      </ScrollView>
-      <View>
-        {/*  <ProfileComponent
-          image={user.image}
-          title={user.name}
-          subTitle={user.id}
+      </View>
+      {postUser && (
+        <ProfileComponent
+          image={postUser.image}
+          title={postUser.name}
+          subTitle={postUser.id}
+          style2={{
+            position: "absolute",
+            bottom: 0,
+            width: "100%",
+          }}
           buttonTitle="Contacter"
           buttonAction={() => console.log(`test`)}
-        />*/}
-      </View>
-    </View>
+        />
+      )}
+    </ScrollView>
   )
 }
 

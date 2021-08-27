@@ -9,7 +9,6 @@ import FeedNavigator from "./FeedNavigator"
 import AccountNavigator from "./AccountNavigator"
 
 import Icon from "../components/Icon"
-import UpdateProfile from "../screens/UpdateProfile"
 
 const Tab = createBottomTabNavigator()
 
@@ -35,6 +34,7 @@ const AppNavigator = ({ updateAuthState }) => (
       name={"PostEdit"}
       component={PostEdit}
       options={({ navigation }) => ({
+        tabBarVisible: false,
         tabBarButton: () => (
           <NewPostButton onPress={() => navigation.navigate("PostEdit")} />
         ),

@@ -6,9 +6,21 @@ import Feed from "../screens/Feed"
 import Test from "../screens/Test"
 import routes from "./routes"
 import Test2 from "../screens/Test2"
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 
 const Stack = createStackNavigator()
-export default function FeedNavigator() {
+export default function FeedNavigator({ navigation, route }) {
+  //hide the bottom tabBar only for CardDetail screen
+  React.useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route)
+    if (routeName === "CardDetail") {
+      navigation.setOptions({ tabBarVisible: false })
+    } else {
+      navigation.setOptions({ tabBarVisible: true })
+    }
+  })
+  /////
+
   return (
     <Stack.Navigator
       mode="modal"

@@ -16,23 +16,28 @@ export default function ProfileComponent({
   buttonTitle,
   buttonAction,
   ImageComponent,
+  style2,
 }) {
   return (
-    <Swipeable renderRightActions={renderRightActions}>
-      <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
-        <View style={styles.container}>
-          {ImageComponent}
-          {image && <Image source={{ uri: image }} style={styles.image} />}
-          <View style={{ marginLeft: 10, alignItems: "flex-start", flex: 1 }}>
-            <AppText style2={styles.title}>{title}</AppText>
-            {subTitle && <AppText style2={styles.subTitle}>{subTitle}</AppText>}
+    <View style={style2}>
+      <Swipeable renderRightActions={renderRightActions}>
+        <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
+          <View style={styles.container}>
+            {ImageComponent}
+            {image && <Image source={{ uri: image }} style={styles.image} />}
+            <View style={{ marginLeft: 10, alignItems: "flex-start", flex: 1 }}>
+              <AppText style2={styles.title}>{title}</AppText>
+              {subTitle && (
+                <AppText style2={styles.subTitle}>{subTitle}</AppText>
+              )}
+            </View>
+            <View style={{ alignSelf: "flex-end", width: "30%" }}>
+              <AppButton title={buttonTitle} onPress={buttonAction} />
+            </View>
           </View>
-          <View style={{ alignSelf: "flex-end", width: "30%" }}>
-            <AppButton title={buttonTitle} onPress={buttonAction} />
-          </View>
-        </View>
-      </TouchableHighlight>
-    </Swipeable>
+        </TouchableHighlight>
+      </Swipeable>
+    </View>
   )
 }
 

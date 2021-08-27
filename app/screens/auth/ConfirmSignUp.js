@@ -26,7 +26,7 @@ export default ConfirmSignUp = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.container}>
-        <AppText style={styles.subtitle}>Confirmer l'inscription</AppText>
+        <AppText style={styles.subtitle}>Confirm registration</AppText>
 
         <AppTextInput
           value={username}
@@ -43,7 +43,7 @@ export default ConfirmSignUp = ({ navigation, route }) => {
           value={authCode}
           onChangeText={(text) => setAuthCode(text)}
           icon="numeric"
-          placeholder="Code de vérification par mail"
+          placeholder="Email verification code"
           keyboardType="numeric"
         />
 

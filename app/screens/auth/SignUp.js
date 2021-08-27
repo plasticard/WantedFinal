@@ -25,8 +25,8 @@ export default SignUp = ({ navigation }) => {
 
   return (
     <Screen style2={styles.container}>
-      <Text style={styles.title}>Bienvenue sur Wanted</Text>
-      <Text style={styles.subtitle}>S'inscrire</Text>
+      <Text style={styles.title}>Welcome to Wanted app</Text>
+      <Text style={styles.subtitle}>Please register</Text>
 
       <AppTextInput
         value={username}
@@ -43,19 +43,19 @@ export default SignUp = ({ navigation }) => {
         value={password}
         onChangeText={(text) => setPassword(text)}
         icon="lock"
-        placeholder="Mot de passe"
+        placeholder="Password"
         autoCapitalize="none"
         autoCorrect={false}
         secureTextEntry
         textContentType="password"
       />
 
-      <AppButton title="Inscription" onPress={signUp} />
+      <AppButton title="Register" onPress={signUp} />
 
       <View style={styles.footerButtonContainer}>
         <TouchableOpacity onPress={() => navigation.navigate("SignIn")}>
           <Text style={styles.forgotPasswordButtonText}>
-            Vous avez un compte ? Connectez-vous
+            Already have an account ? Sign in
           </Text>
         </TouchableOpacity>
       </View>

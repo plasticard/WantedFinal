@@ -20,6 +20,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
       updateAuthState("loggedIn")
     } catch (error) {
       console.log(" Error signing in...", error)
+      alert(error["message"])
     }
   }
 

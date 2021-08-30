@@ -46,10 +46,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: colors.white,
     width: "100%",
-    paddingHorizontal: 10,
+    padding: 10,
     alignItems: "center",
-    borderTopWidth: 2,
-    borderColor: colors.light,
   },
   image: {
     width: 60,

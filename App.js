@@ -36,15 +36,19 @@ const App = () => {
 
       //check if user exists in db
       const user = (await DataStore.query(User)).filter((u) => u.sub === userId)
-      if (!user) {
+
+      if (user.length === 0) {
         //if not save user to db
         const newUser = await DataStore.save(
           new User({
             sub: userId,
-            name: userInfo.attributes.email,
+            email: userInfo.attributes.email,
+            name: userInfo.attributes.email.split("@")[0],
             image: defaultImage,
           })
         )
+        console.log(`newUser`, newUser)
+
         setUserLogged(newUser)
       }
 

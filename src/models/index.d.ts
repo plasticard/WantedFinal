@@ -6,9 +6,10 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 export declare class User {
   readonly id: string;
+  readonly email: string;
   readonly name?: string;
-  readonly image?: string;
   readonly Posts?: (Post | null)[];
+  readonly image?: string;
   readonly sub?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;

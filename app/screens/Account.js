@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import {
   FlatList,
   Modal,
@@ -61,7 +61,6 @@ const Account = ({ navigation, updateAuthState }) => {
           buttonTitle="Modifier"
           buttonAction={() => setModal(true)}
         />
-
         <View style={styles.container}>
           <FlatList
             scrollEnabled={false}
@@ -94,6 +93,11 @@ const Account = ({ navigation, updateAuthState }) => {
       </View>
     </>
   )
+}
+{
+  /**
+   *
+   */
 }
 
 export default Account

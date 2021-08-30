@@ -26,7 +26,6 @@ const DateInput = ({ placeholder, name }) => {
 
   useEffect(() => {
     setFieldValue(name, date)
-    console.log(`date`, date)
   }, [])
 
   const onChange = (event, selectedDate) => {

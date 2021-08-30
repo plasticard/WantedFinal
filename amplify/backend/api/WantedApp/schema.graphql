@@ -1,27 +1,13 @@
-type User
-  @model
-  @auth(
-    rules: [
-      { allow: owner, operations: [read, create, update, delete] }
-      { allow: private, operations: [read, create] }
-    ]
-  ) {
+type User @model @auth(rules: [{allow: private, operations: [read]}, {allow: owner}]) {
   id: ID!
+  email: String!
   name: String
-  image: String
   Posts: [Post] @connection(keyName: "byUser", fields: ["id"])
+  image: String
   sub: String
 }
 
-type Post
-  @model
-  @key(name: "byUser", fields: ["userID"])
-  @auth(
-    rules: [
-      { allow: private, operations: [read, create] }
-      { allow: owner, operations: [read, create, update, delete] }
-    ]
-  ) {
+type Post @model @key(name: "byUser", fields: ["userID"]) @auth(rules: [{allow: private, operations: [read, create]}, {allow: owner}]) {
   id: ID!
   images: [String]!
   name: String!
@@ -39,3 +25,4 @@ type Post
   email: String
   userID: ID
 }
+ 

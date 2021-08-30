@@ -8,9 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  Image,
   FlatList,
-  Pressable,
 } from "react-native"
 import * as Yup from "yup"
 import ProgressBar from "react-native-progress/Bar"

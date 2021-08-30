@@ -4,9 +4,11 @@ import {
   Image,
   StyleSheet,
   View,
+  Modal,
   ScrollView,
   TouchableOpacity,
 } from "react-native"
+import * as Linking from "expo-linking"
 import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons"
 import ImageView from "react-native-image-view"
 import moment from "moment"
@@ -21,8 +23,11 @@ import AppButton from "../components/AppButton"
 import DetailsText from "../components/DetailsText"
 import { User } from "../../src/models"
 import Separator from "../components/Separator"
+import AppModal from "../components/AppModal"
 
 const CardDetail = ({ route, navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false)
+
   //state---------//
   const [post, setPost] = useState(route.params.item)
   const [postUser, setPostUser] = useState()
@@ -41,7 +46,6 @@ const CardDetail = ({ route, navigation }) => {
 
   const fetchPostUser = async () => {
     await DataStore.query(User, post.userID).then(setPostUser)
-    console.log(`postUser`, postUser)
   }
 
   //fetch post with postId
@@ -102,6 +106,13 @@ const CardDetail = ({ route, navigation }) => {
       </View>
     )
   }
+  const contact = (input) => {
+    if (input === "email") {
+      Linking.openURL(`mailto:${post.email}`)
+    } else {
+      Linking.openURL(`tel:${post.tel}`)
+    }
+  }
 
   //Success
   return (
@@ -109,6 +120,11 @@ const CardDetail = ({ route, navigation }) => {
       showsVerticalScrollIndicator={false}
       style={{ backgroundColor: "white" }}
     >
+      <AppModal
+        action={contact}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
       <View style2={styles.header}>
         <View
           style={{
@@ -186,14 +202,13 @@ const CardDetail = ({ route, navigation }) => {
           )}
         />
       </View>
-      <View
-      // style={{ height: "68%" }}
-      >
+      <View>
         <AppText
           style2={{
             textAlign: "center",
             fontSize: 20,
             width: "90%",
+            alignSelf: "center",
             color: colors.danger,
           }}
         >
@@ -203,29 +218,33 @@ const CardDetail = ({ route, navigation }) => {
           <AppText style={styles.sectionTitle}>Identité</AppText>
           <View style={styles.section}>
             <DetailsText text={name} subText={"Nom"} />
-            <DetailsText text={age} subText={"Age"} other={" ans"} />
-            <DetailsText text={location} subText={"Lieu de disparition"} />
+            {age !== null && (
+              <DetailsText text={age} subText={"Age"} other={" ans"} />
+            )}
+            {location !== "" && (
+              <DetailsText text={location} subText={"Lieu de disparition"} />
+            )}
           </View>
           <Separator />
           <AppText style={styles.sectionTitle}>Description physique</AppText>
           <View style={styles.section}>
-            {corpulence && (
+            {corpulence !== "" && (
               <DetailsText text={corpulence} subText={"Corpulence"} />
             )}
-            {height && (
+            {height !== null && (
               <DetailsText text={height} subText={"Taille"} other=" cm" />
             )}
-            {hair && <DetailsText text={hair} subText={"Cheveux"} />}
-            {eyes && <DetailsText text={eyes} subText={"Yeux"} />}
-            {outfit && <DetailsText text={outfit} subText={"Tenue"} />}
-            {other && <DetailsText text={other} subText={"Autre"} />}
+            {hair !== "" && <DetailsText text={hair} subText={"Cheveux"} />}
+            {eyes !== "" && <DetailsText text={eyes} subText={"Yeux"} />}
+            {outfit !== "" && <DetailsText text={outfit} subText={"Tenue"} />}
+            {other !== "" && <DetailsText text={other} subText={"Autre"} />}
           </View>
           <Separator />
 
           <AppText style={styles.sectionTitle}>Contact</AppText>
           <View style={styles.section}>
-            {tel && <DetailsText text={tel} subText={"Téléphone"} />}
-            {email && <DetailsText text={email} subText={"Email"} />}
+            {tel !== "" && <DetailsText text={tel} subText={"Téléphone"} />}
+            {email !== "" && <DetailsText text={email} subText={"Email"} />}
           </View>
         </View>
       </View>
@@ -240,7 +259,7 @@ const CardDetail = ({ route, navigation }) => {
             width: "100%",
           }}
           buttonTitle="Contacter"
-          buttonAction={() => console.log(`test`)}
+          buttonAction={() => setModalVisible(true)}
         />
       )}
     </ScrollView>

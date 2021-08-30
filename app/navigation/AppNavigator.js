@@ -53,7 +53,7 @@ const AppNavigator = ({ updateAuthState }) => (
         headerRight: () => (
           <View>
             <Button onPress={() => Auth.signOut({ global: true })} transparent>
-              <Icon name="exit-to-app" style={{ iconColor: "white" }} />
+              <Icon name="exit-to-app" style={{ iconColor: "black" }} />
             </Button>
           </View>
         ),

@@ -1,4 +1,4 @@
-type User @model @auth(rules: [{allow: private, operations: [read]}, {allow: owner}]) {
+type User @model @auth(rules: [{allow: private, operations: [read, create]}, {allow: public}]) {
   id: ID!
   email: String!
   name: String
@@ -7,7 +7,7 @@ type User @model @auth(rules: [{allow: private, operations: [read]}, {allow: own
   sub: String
 }
 
-type Post @model @key(name: "byUser", fields: ["userID"]) @auth(rules: [{allow: private, operations: [read, create]}, {allow: owner}]) {
+type Post @model @key(name: "byUser", fields: ["userID"]) @auth(rules: [{allow: private, operations: [read, create]}, {allow: public, operations: [create, read]}]) {
   id: ID!
   images: [String]!
   name: String!

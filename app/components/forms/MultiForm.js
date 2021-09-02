@@ -28,7 +28,7 @@ function MultiForm({
             <View>
               {step === childrenArray.length - 1 ? (
                 <SubmitButton
-                  title="Valider"
+                  title="Confirm"
                   onPress={() => {
                     setstep(0)
                     onSubmit()
@@ -37,7 +37,7 @@ function MultiForm({
               ) : null}
               {step < childrenArray.length - 1 ? (
                 <AppButton
-                  title="Suivant"
+                  title="Next"
                   onPress={() => {
                     setstep((s) => s + 1)
                     progress(oneStep)
@@ -52,7 +52,7 @@ function MultiForm({
                     setstep((s) => s - 1)
                     progress(-oneStep)
                   }}
-                  title="Retour"
+                  title="Back"
                 />
               ) : null}
             </View>

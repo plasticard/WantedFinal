@@ -1,5 +1,6 @@
 Reflechir a suite de l'app
 
-
+AJOUTER CHAMP DESCRIPTION et TITLE pour permettre de mettre un titre et une description personelle en plus des autres infos
 Comprendre Linking et faire un URLscheme
 
+PB : synchronisation de la data user et post

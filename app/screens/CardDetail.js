@@ -212,38 +212,43 @@ const CardDetail = ({ route, navigation }) => {
             color: colors.danger,
           }}
         >
-          {`Disparu le ${moment(date).format("LL")} à ${location}`}
+          {`Last seen on ${moment(date).format("LL")} at ${location}`}
         </AppText>
         <View style={{ padding: 20 }}>
-          <AppText style={styles.sectionTitle}>Identité</AppText>
+          <AppText style={styles.sectionTitle}>Identity</AppText>
           <View style={styles.section}>
-            <DetailsText text={name} subText={"Nom"} />
+            <DetailsText text={name} subText={"Name"} />
             {age !== null && (
-              <DetailsText text={age} subText={"Age"} other={" ans"} />
+              <DetailsText text={age} subText={"Age"} other={" years old"} />
             )}
             {location !== "" && (
-              <DetailsText text={location} subText={"Lieu de disparition"} />
+              <DetailsText
+                text={location}
+                subText={"Location before missing"}
+              />
             )}
           </View>
           <Separator />
-          <AppText style={styles.sectionTitle}>Description physique</AppText>
+          <AppText style={styles.sectionTitle}>Physical apparence</AppText>
           <View style={styles.section}>
             {corpulence !== "" && (
               <DetailsText text={corpulence} subText={"Corpulence"} />
             )}
             {height !== null && (
-              <DetailsText text={height} subText={"Taille"} other=" cm" />
+              <DetailsText text={height} subText={"Height"} other=" cm" />
             )}
-            {hair !== "" && <DetailsText text={hair} subText={"Cheveux"} />}
-            {eyes !== "" && <DetailsText text={eyes} subText={"Yeux"} />}
-            {outfit !== "" && <DetailsText text={outfit} subText={"Tenue"} />}
-            {other !== "" && <DetailsText text={other} subText={"Autre"} />}
+            {hair !== "" && <DetailsText text={hair} subText={"Hair"} />}
+            {eyes !== "" && <DetailsText text={eyes} subText={"Eyes"} />}
+            {outfit !== "" && <DetailsText text={outfit} subText={"Outfit"} />}
+            {other !== "" && (
+              <DetailsText text={other} subText={"Other specifications"} />
+            )}
           </View>
           <Separator />
 
           <AppText style={styles.sectionTitle}>Contact</AppText>
           <View style={styles.section}>
-            {tel !== "" && <DetailsText text={tel} subText={"Téléphone"} />}
+            {tel !== "" && <DetailsText text={tel} subText={"Telephone"} />}
             {email !== "" && <DetailsText text={email} subText={"Email"} />}
           </View>
         </View>
@@ -252,13 +257,13 @@ const CardDetail = ({ route, navigation }) => {
         <ProfileComponent
           image={postUser.image}
           title={postUser.name}
-          subTitle={postUser.id}
+          subTitle={postUser.email}
           style2={{
             position: "absolute",
             bottom: 0,
             width: "100%",
           }}
-          buttonTitle="Contacter"
+          buttonTitle="Contact"
           buttonAction={() => setModalVisible(true)}
         />
       )}

@@ -39,6 +39,7 @@ const menuItems = [
 ]
 const Account = ({ navigation, updateAuthState }) => {
   const { user, updateImage } = useContext(UserContext)
+  console.log(`userAccount`, user)
   const [modal, setModal] = useState(false)
 
   async function signOut() {
@@ -57,7 +58,7 @@ const Account = ({ navigation, updateAuthState }) => {
         <ProfileComponent
           image={user.image}
           title={user.name}
-          subTitle={user.name}
+          subTitle={user.email}
           buttonTitle="Modifier"
           buttonAction={() => setModal(true)}
         />

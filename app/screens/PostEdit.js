@@ -26,7 +26,7 @@ import Screen from "../components/Screen"
 import colors from "../config/colors"
 import DateInput from "../components/DateInput"
 import ImagePicker from "../components/forms/ImagePicker"
-import LocalisationSearchBar from "../components/forms/LocalisationSearchBar"
+import LocationSearchBar from "../components/forms/LocationSearchBar"
 import AppButton from "../components/AppButton"
 
 const validationSchema = Yup.object().shape({
@@ -220,17 +220,16 @@ const PostEdit = ({ navigation }) => {
               //Form 1
             }
             <View>
-              <AppText style2={styles.title}>Identité et Signalement</AppText>
+              <AppText style2={styles.title}>Identity</AppText>
               <AppText style2={{ marginLeft: 16 }}>
-                Remplissez le plus de champs possible.
+                Please fill as fields as possible.
               </AppText>
-              <AppButton onPress={() => setModalVisible(true)} />
               <ImagePicker name="images" />
 
               <AppFormField
                 name="name"
-                placeholder="Nom, prénom..."
-                icon="account"
+                placeholder="Name, nickname..."
+                icon="account-circle"
               />
               <AppFormField
                 name="age"
@@ -241,19 +240,26 @@ const PostEdit = ({ navigation }) => {
               />
               <DateInput
                 name="date"
-                placeholder="Date de disparition"
+                placeholder="Date missing"
                 icon="calendar-today"
               />
-              <LocalisationSearchBar
-                placeholder="Lieu de disparition"
+              <AppFormField
+                placeholder="Location before missing"
+                name="location"
+                icon="my-location"
+              />
+              {/*
+              <LocationSearchBar
+                placeholder="Location before missing"
                 name="location"
               />
+              */}
             </View>
             {
               //Form 2
             }
             <View>
-              <AppText style2={styles.title}>Description physique</AppText>
+              <AppText style2={styles.title}>Physical apparence</AppText>
               <AppFormField
                 name="corpulence"
                 placeholder="Corpulence"
@@ -263,21 +269,21 @@ const PostEdit = ({ navigation }) => {
                 name="height"
                 keyboardType="numeric"
                 maxLength={3}
-                placeholder="Taille (cm)"
+                placeholder="Height (cm)"
                 width={"30%"}
               />
 
-              <AppFormField name="hair" placeholder="Cheveux" />
-              <AppFormField name="eyes" placeholder="Yeux" />
+              <AppFormField name="hair" placeholder="Hair" />
+              <AppFormField name="eyes" placeholder="Eyes" />
               <AppFormField
                 name="outfit"
-                placeholder="Tenue vestimentaire"
+                placeholder="Outfit"
                 multiline
                 numberOfLines={4}
               />
               <AppFormField
                 name="other"
-                placeholder="Signe particulier, autre..."
+                placeholder="Other characteristics"
                 multiline
                 numberOfLines={4}
               />
@@ -291,7 +297,7 @@ const PostEdit = ({ navigation }) => {
               <AppFormField
                 width={"40%"}
                 name="tel"
-                placeholder="Téléphone"
+                placeholder="Telephone"
                 keyboardType="numeric"
                 maxLength={10}
               />

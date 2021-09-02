@@ -13,7 +13,7 @@ export default SignUp = ({ navigation }) => {
 
   async function signUp() {
     try {
-      await Auth.signUp({ username, password, attributes: { email } })
+      await Auth.signUp({ username, password })
 
       console.log(" Sign-up Confirmed")
 

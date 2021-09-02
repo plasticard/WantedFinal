@@ -13,7 +13,7 @@ import Initializing from "./Initializing"
 import { withAuthenticator } from "aws-amplify-react-native"
 
 import Amplify, { Auth, DataStore } from "aws-amplify"
-import { User } from "./src/models"
+import { Post, User } from "./src/models"
 import config from "./src/aws-exports"
 Amplify.configure(config)
 
@@ -25,8 +25,11 @@ const App = () => {
 
   useEffect(() => {
     checkAuthState()
+    test()
   }, [])
-
+  async function test() {
+    await DataStore.query(Post).then(console.log)
+  }
   async function checkAuthState() {
     try {
       //get user from cognito
@@ -47,7 +50,6 @@ const App = () => {
             image: defaultImage,
           })
         )
-        console.log(`newUser`, newUser)
 
         setUserLogged(newUser)
       }

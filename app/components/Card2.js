@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Image, StyleSheet, View, TouchableOpacity } from "react-native"
 import { useNavigation } from "@react-navigation/core"
 import moment from "moment"
-import "moment/locale/fr"
-moment.locale("fr")
+moment.locale("en")
 
 import colors from "../config/colors"
 import AppText from "./AppText"
@@ -79,7 +78,7 @@ const Card2 = ({ item }) => {
           <AppText style2={styles.description}>
             {moment(createdAt).startOf("day").fromNow()}
           </AppText>
-          <AppText style2={styles.description}>DISPARITION</AppText>
+          <AppText style2={styles.description}>MISSING</AppText>
         </View>
       </View>
     </TouchableOpacity>

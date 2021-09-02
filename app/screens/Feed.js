@@ -23,6 +23,7 @@ const Feed = ({ navigation }) => {
   const fetchPosts = async () => {
     await DataStore.query(Post).then(setPosts)
     setLoading(false)
+    console.log(`posts.length`, posts.length)
   }
   return (
     <Screen>

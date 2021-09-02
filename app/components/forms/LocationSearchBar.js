@@ -7,7 +7,7 @@ import { useFormikContext } from "formik"
 import defaultStyles from "../../config/styles"
 import ErrorMessage from "./ErrorMessage"
 
-const LocalisationSearchBar = ({ placeholder, name }) => {
+const LocationSearchBar = ({ placeholder, name }) => {
   const {
     setFieldTouched,
     setFieldValue,
@@ -40,9 +40,9 @@ const LocalisationSearchBar = ({ placeholder, name }) => {
         }}
         query={{
           key: "AIzaSyCeoQjaosVPYf8xS0QxiqIOL_od4exQf8s",
-          language: "fr",
+          language: "en",
           types: "(cities)",
-          components: "country:fr",
+          components: "country:us",
         }}
         styles={{
           textInput: styles.textInput,
@@ -56,7 +56,7 @@ const LocalisationSearchBar = ({ placeholder, name }) => {
   )
 }
 
-export default LocalisationSearchBar
+export default LocationSearchBar
 
 const styles = StyleSheet.create({
   container: {

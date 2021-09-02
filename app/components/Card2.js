@@ -76,7 +76,7 @@ const Card2 = ({ item }) => {
           }}
         >
           <AppText style2={styles.description}>
-            {moment(createdAt).startOf("day").fromNow()}
+            {moment(createdAt).startOf("hour").fromNow()}
           </AppText>
           <AppText style2={styles.description}>MISSING</AppText>
         </View>

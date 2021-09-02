@@ -6,7 +6,7 @@ import Screen from "../components/Screen"
 import AppText from "../components/AppText"
 import AppButton from "../components/AppButton"
 import ActivityIndicator from "../components/ActivityIndicator"
-import { DataStore } from "aws-amplify"
+import { DataStore, Predicates } from "aws-amplify"
 import { Post } from "../../src/models"
 
 const Feed = ({ navigation }) => {
@@ -19,7 +19,9 @@ const Feed = ({ navigation }) => {
     setLoading(true)
     fetchPosts()
   }, [])
-
+  const deleteF = async () => {
+    await DataStore.delete(Post, Predicates.ALL)
+  }
   const fetchPosts = async () => {
     await DataStore.query(Post).then(setPosts)
     setLoading(false)
@@ -45,6 +47,7 @@ const Feed = ({ navigation }) => {
           renderItem={({ item }) => <Card2 item={item} />}
         />
       )}
+      <AppButton title="Delete" onPress={deleteF} />
     </Screen>
   )
 }

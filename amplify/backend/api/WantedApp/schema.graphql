@@ -12,7 +12,7 @@ type Post @model @key(name: "byUser", fields: ["userID"]) @auth(rules: [{allow: 
   images: [String]!
   name: String!
   age: Int
-  date: AWSDateTime
+  date: String
   User: User @connection
   location: String
   corpulence: String

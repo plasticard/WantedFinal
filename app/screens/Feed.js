@@ -47,7 +47,9 @@ const Feed = ({ navigation }) => {
           renderItem={({ item }) => <Card2 item={item} />}
         />
       )}
-      <AppButton title="Delete" onPress={deleteF} />
+      {/*
+     <AppButton title="Delete" onPress={deleteF} />
+     */}
     </Screen>
   )
 }

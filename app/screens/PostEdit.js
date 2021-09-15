@@ -110,12 +110,13 @@ const PostEdit = ({ navigation }) => {
     ///////
 
     //save the post with all formatted fields
+    console.log(`post.date`, post.date)
     await DataStore.save(
       new Post({
         images: imageKeys,
         name: post.name,
         age: post.age,
-        date: "2021-08-06T12:10:42.315Z",
+        date: post.date.toString(),
         location: post.location,
         corpulence: post.corpulence,
         height: post.height,

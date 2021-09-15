@@ -255,9 +255,11 @@ const CardDetail = ({ route, navigation }) => {
       </View>
       {postUser && (
         <ProfileComponent
-          image={postUser.image}
-          title={postUser.name}
-          subTitle={postUser.email}
+          image={
+            "https://www.kindpng.com/picc/m/105-1055656_account-user-profile-avatar-avatar-user-profile-icon.png"
+          }
+          title={"Abdessamad BOURHALEB"}
+          subTitle={"abdessamad.bourhaleb@gmail.com"}
           style2={{
             position: "absolute",
             bottom: 0,

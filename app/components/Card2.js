@@ -10,11 +10,11 @@ import routes from "../navigation/routes"
 
 import { Storage } from "aws-amplify"
 const Card2 = ({ item }) => {
+  console.log(`item`, item)
   //state
   const navigation = useNavigation()
-  const { id, name, age, images, location, createdAt } = item
+  const { id, name, age, images, location, date } = item
   const [image, setImage] = useState()
-
   useEffect(() => {
     if (images) {
       if (images[0].startsWith("http")) setImage(images[0])
@@ -76,9 +76,11 @@ const Card2 = ({ item }) => {
           }}
         >
           <AppText style2={styles.description}>
-            {moment(createdAt).startOf("hour").fromNow()}
+            {location.split(",")[0]}
           </AppText>
-          <AppText style2={styles.description}>MISSING</AppText>
+          <AppText style2={styles.description}>
+            {moment(date).format("l")}
+          </AppText>
         </View>
       </View>
     </TouchableOpacity>

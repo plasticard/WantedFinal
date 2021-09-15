@@ -56,7 +56,6 @@ const Account = ({ navigation, updateAuthState }) => {
     <>
       <Screen style2={styles.screen}>
         <ProfileComponent
-          image={user.image}
           title={user.name}
           subTitle={user.email}
           buttonTitle="Modifier"

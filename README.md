@@ -30,13 +30,3 @@ The creating post screen is accessible with the middle button of the bottom tab 
 * Multi-step form with tracking progress bar
 * Dynamic sections for the post details.
 
-##### Improvements :
-Overall the project looks like what I wanted to do. Except creating an URL for each post in order to share it on social medias which i didn't manage to implement.
-* Map view showing locations of all the missing notices around the current location.
-* Comments below the posts for people to ask questions or provide support to the family with positive messages.
-* Login with social media (twitter / facebook)
-* Generating "posters" formatted in Wanted app which can be printed or shared in instagram, snapchat, facebook, whatsapp stories (with the link embedded)
-* Private Live chat to contact the user
-* Adapt the app to create also posts for missing (important) objects or animals.
-Also But this experience was really enriching and i'm proud of it. Thanks for reading!
-
